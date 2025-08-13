@@ -36,7 +36,7 @@ if SERVER then
 	function ENT:OnTakeDamage( dmginfo )
 	end
 
-	function ENT:Initialize()	
+	function ENT:Initialize()
 		self:SetModel( "models/props_wasteland/gaspump001a.mdl" )
 		self:PhysicsInit( SOLID_VPHYSICS )
 		self:SetUseType( SIMPLE_USE )
@@ -59,7 +59,7 @@ if SERVER then
 		self:SetUser( ply )
 
 		local SWEP = ply:GetWeapon( "weapon_lvsfuelfiller" )
-	
+
 		if not IsValid( SWEP ) then return end
 
 		SWEP:SetFuelType( self:GetFuelType() )

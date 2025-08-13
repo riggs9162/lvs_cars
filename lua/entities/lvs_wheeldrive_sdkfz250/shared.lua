@@ -115,7 +115,7 @@ function ENT:AddGunnerWeapons()
 			if not IsValid( base.SNDTurretMGf ) then return true end
 
 			base.SNDTurretMGf:Stop()
-	
+
 			return true
 		end
 
@@ -231,7 +231,7 @@ function ENT:AddTopGunnerWeapons()
 			if not IsValid( base.SNDTurretMGt ) then return true end
 
 			base.SNDTurretMGt:Stop()
-	
+
 			return true
 		end
 
@@ -329,14 +329,14 @@ function ENT:CalcMainActivityPassenger( ply )
 
 	if FrontGunnerSeat:GetDriver() != ply and RearGunnerSeat:GetDriver() != ply then return end
 
-	if ply.m_bWasNoclipping then 
-		ply.m_bWasNoclipping = nil 
-		ply:AnimResetGestureSlot( GESTURE_SLOT_CUSTOM ) 
-		
-		if CLIENT then 
+	if ply.m_bWasNoclipping then
+		ply.m_bWasNoclipping = nil
+		ply:AnimResetGestureSlot( GESTURE_SLOT_CUSTOM )
+
+		if CLIENT then
 			ply:SetIK( true )
-		end 
-	end 
+		end
+	end
 
 	ply.CalcIdeal = ACT_STAND
 	ply.CalcSeqOverride = ply:LookupSequence( "cwalk_revolver" )
@@ -358,7 +358,7 @@ function ENT:UpdateAnimation( ply, velocity, maxseqgroundspeed )
 
 		if IsValid( FrontGunnerSeat ) and FrontGunnerSeat:GetDriver() == ply then
 			local Pitch = math.Remap( self:GetPoseParameter( "f_pitch" ),0,1,-15,15)
-			local Yaw = math.Remap( self:GetPoseParameter( "f_yaw" ),0,1,-35,35) 
+			local Yaw = math.Remap( self:GetPoseParameter( "f_yaw" ),0,1,-35,35)
 
 			ply:SetPoseParameter( "aim_pitch", Pitch * 1.5 )
 			ply:SetPoseParameter( "aim_yaw", Yaw * 1.5 )
@@ -374,7 +374,7 @@ function ENT:UpdateAnimation( ply, velocity, maxseqgroundspeed )
 
 		if IsValid( RearGunnerSeat ) and RearGunnerSeat:GetDriver() == ply then
 			local Pitch = math.Remap( self:GetPoseParameter( "r_pitch" ),0,1,-15,15)
-			local Yaw = math.Remap( self:GetPoseParameter( "r_yaw" ),0,1,-35,35) 
+			local Yaw = math.Remap( self:GetPoseParameter( "r_yaw" ),0,1,-35,35)
 
 			ply:SetPoseParameter( "aim_pitch", Pitch * 3 - 10 )
 			ply:SetPoseParameter( "aim_yaw", Yaw * 1.5 )

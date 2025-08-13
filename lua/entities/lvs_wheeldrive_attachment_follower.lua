@@ -39,7 +39,7 @@ if SERVER then
 
 		PhysObj:SetMass( 1 )
 		PhysObj:EnableDrag( false )
-		PhysObj:EnableGravity( false ) 
+		PhysObj:EnableGravity( false )
 		PhysObj:EnableMotion( true )
 
 		timer.Simple( 0, function()

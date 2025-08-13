@@ -35,7 +35,7 @@ if SERVER then
 
 	end
 
-	function ENT:Initialize()	
+	function ENT:Initialize()
 		self:SetModel( "models/blu/lvsmine.mdl" )
 		self:PhysicsInit( SOLID_VPHYSICS )
 		self:SetMoveType( MOVETYPE_VPHYSICS )
@@ -106,11 +106,11 @@ if SERVER then
 
 		PhysObj:SetVelocity( data.OurOldVelocity * 0.5 )
 
-		if not IsValid( HitEnt ) or HitEnt:IsWorld() then 
+		if not IsValid( HitEnt ) or HitEnt:IsWorld() then
 			if data.Speed > 60 and data.DeltaTime > 0.1 then
 				self:EmitSound( "weapon.ImpactHard" )
 			end
-			
+
 			return
 		end
 

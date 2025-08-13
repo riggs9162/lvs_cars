@@ -159,7 +159,7 @@ function ENT:InitWeapons()
 				filter = ent:GetCrosshairFilterEnts()
 			} )
 
-			local MuzzlePos2D = traceTurret.HitPos:ToScreen() 
+			local MuzzlePos2D = traceTurret.HitPos:ToScreen()
 
 			ent:PaintCrosshairCenter( MuzzlePos2D, COLOR_WHITE )
 			ent:LVSPaintHitMarker( MuzzlePos2D )
@@ -269,7 +269,7 @@ function ENT:InitWeapons()
 				filter = ent:GetCrosshairFilterEnts()
 			} )
 
-			local MuzzlePos2D = traceTurret.HitPos:ToScreen() 
+			local MuzzlePos2D = traceTurret.HitPos:ToScreen()
 
 			if ent:GetUseHighExplosive() then
 				ent:PaintCrosshairSquare( MuzzlePos2D, COLOR_WHITE )
@@ -318,7 +318,7 @@ function ENT:InitWeapons()
 		grenade:SetAngles( Ang1 )
 		grenade:Spawn()
 		grenade:Activate()
-		grenade:GetPhysicsObject():SetVelocity( Ang1:Forward() * 1000 ) 
+		grenade:GetPhysicsObject():SetVelocity( Ang1:Forward() * 1000 )
 
 		local Ang2 = Muzzle2.Ang
 		Ang2:RotateAroundAxis( Up, 5 )
@@ -327,7 +327,7 @@ function ENT:InitWeapons()
 		grenade:SetAngles( Ang2 )
 		grenade:Spawn()
 		grenade:Activate()
-		grenade:GetPhysicsObject():SetVelocity( Ang2:Forward() * 1000 ) 
+		grenade:GetPhysicsObject():SetVelocity( Ang2:Forward() * 1000 )
 
 		local Ang3 = Muzzle1.Ang
 		Ang3:RotateAroundAxis( Up, -15 )
@@ -336,7 +336,7 @@ function ENT:InitWeapons()
 		grenade:SetAngles( Ang3 )
 		grenade:Spawn()
 		grenade:Activate()
-		grenade:GetPhysicsObject():SetVelocity( Ang3:Forward() * 1000 ) 
+		grenade:GetPhysicsObject():SetVelocity( Ang3:Forward() * 1000 )
 
 
 		local Ang4 = Muzzle2.Ang
@@ -346,7 +346,7 @@ function ENT:InitWeapons()
 		grenade:SetAngles( Ang4 )
 		grenade:Spawn()
 		grenade:Activate()
-		grenade:GetPhysicsObject():SetVelocity( Ang4:Forward() * 1000 ) 
+		grenade:GetPhysicsObject():SetVelocity( Ang4:Forward() * 1000 )
 	end
 	self:AddWeapon( weapon )
 
@@ -385,9 +385,9 @@ function ENT:InitWeapons()
 			timer.Simple( math.Rand(0,0.2), function()
 				if not IsValid( ent ) then return end
 
-				local pos = ent:LocalToWorld( data.pos ) 
+				local pos = ent:LocalToWorld( data.pos )
 				local ang = ent:LocalToWorldAngles( data.ang )
-		
+
 				local grenade = ents.Create( "lvs_item_explosive" )
 				grenade:SetPos( pos )
 				grenade:SetAngles( ang )
@@ -446,7 +446,7 @@ function ENT:AddGunnerWeapons()
 			if not IsValid( base.SNDTurretMGf ) then return true end
 
 			base.SNDTurretMGf:Stop()
-	
+
 			return true
 		end
 

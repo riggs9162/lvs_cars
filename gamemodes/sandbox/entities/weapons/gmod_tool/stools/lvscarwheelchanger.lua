@@ -150,7 +150,7 @@ if CLIENT then
 		if #bodygroups > 0 then
 			ContextMenuPanel:AddControl( "Label",  { Text = "" } )
 			ContextMenuPanel:AddControl( "Label",  { Text = "BodyGroup" } )
-	
+
 			for group, data in pairs( bodygroups ) do
 				local maxvalue = tostring( data.submodels )
 
@@ -238,7 +238,7 @@ if CLIENT then
 		BuildContextMenu()
 	end
 
-	cvars.AddChangeCallback( "lvscarwheelchanger_model", function( convar, oldValue, newValue ) 
+	cvars.AddChangeCallback( "lvscarwheelchanger_model", function( convar, oldValue, newValue )
 		SetModel( newValue )
 	end)
 end
@@ -280,7 +280,7 @@ local function DuplicatorSaveCarWheels( ent )
 
 		table.insert( data, wheeldata )
 	end
- 
+
 	if not duplicator or not duplicator.StoreEntityModifier then return end
 
 	duplicator.StoreEntityModifier( base, "lvsCarWheels", data )

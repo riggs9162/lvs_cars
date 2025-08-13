@@ -127,7 +127,7 @@ function ENT:CalcWheelEffects()
 
 	self:CalcWheelSounds( Base, trace, traceWater )
 
-	if traceWater.Hit and trace.HitPos.z < traceWater.HitPos.z then 
+	if traceWater.Hit and trace.HitPos.z < traceWater.HitPos.z then
 		if math.abs( self:GetRPM() ) > 25 then
 			self:DoWaterEffects( Base, traceWater, Pos )
 		end

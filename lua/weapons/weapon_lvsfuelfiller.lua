@@ -83,7 +83,7 @@ if CLIENT then
 		self:SetRenderOrigin( pos )
 		self:SetRenderAngles( ang )
 
-		self:DrawModel()	
+		self:DrawModel()
 	end
 
 	local function DrawText( pos, text, col )

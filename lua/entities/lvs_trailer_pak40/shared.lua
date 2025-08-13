@@ -54,14 +54,14 @@ end
 function ENT:CalcMainActivity( ply )
 	if ply != self:GetDriver() then return self:CalcMainActivityPassenger( ply ) end
 
-	if ply.m_bWasNoclipping then 
-		ply.m_bWasNoclipping = nil 
-		ply:AnimResetGestureSlot( GESTURE_SLOT_CUSTOM ) 
-		
-		if CLIENT then 
+	if ply.m_bWasNoclipping then
+		ply.m_bWasNoclipping = nil
+		ply:AnimResetGestureSlot( GESTURE_SLOT_CUSTOM )
+
+		if CLIENT then
 			ply:SetIK( true )
-		end 
-	end 
+		end
+	end
 
 	ply.CalcIdeal = ACT_CROUCHIDLE
 	ply.CalcSeqOverride = ply:LookupSequence( "cidle_knife" )
@@ -157,7 +157,7 @@ function ENT:InitWeapons()
 				filter = ent:GetCrosshairFilterEnts()
 			} )
 
-			local MuzzlePos2D = traceTurret.HitPos:ToScreen() 
+			local MuzzlePos2D = traceTurret.HitPos:ToScreen()
 
 			if ent:GetUseHighExplosive() then
 				ent:PaintCrosshairSquare( MuzzlePos2D, COLOR_WHITE )

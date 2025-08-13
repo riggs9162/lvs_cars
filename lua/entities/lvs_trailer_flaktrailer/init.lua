@@ -46,7 +46,7 @@ function ENT:OnSpawn( PObj )
 	SupportEnt:Spawn()
 	SupportEnt:Activate()
 	SupportEnt:PhysicsInitSphere( 5, "default_silent" )
-	SupportEnt:SetNoDraw( true ) 
+	SupportEnt:SetNoDraw( true )
 	SupportEnt:SetCollisionGroup( COLLISION_GROUP_PASSABLE_DOOR )
 	SupportEnt.DoNotDuplicate = true
 	self:DeleteOnRemove( SupportEnt )
@@ -105,7 +105,7 @@ function ENT:Mount( ent )
 	if IsValid( self._MountEnt ) or ent._IsMounted then return end
 
 	if ent:IsPlayerHolding() then return end
- 
+
 	ent:SetOwner( self )
 	ent:SetPos( self:GetPos() )
 	ent:SetAngles( self:GetAngles() )

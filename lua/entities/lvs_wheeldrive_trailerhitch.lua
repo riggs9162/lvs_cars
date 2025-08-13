@@ -61,7 +61,7 @@ if SERVER then
 		self.GrabEnt:SetCollisionGroup( COLLISION_GROUP_WORLD )
 		self.GrabEnt:Spawn()
 		self.GrabEnt:Activate()
-		self.GrabEnt:SetNoDraw( true ) 
+		self.GrabEnt:SetNoDraw( true )
 		self.GrabEnt.DoNotDuplicate = true
 		self:DeleteOnRemove( self.GrabEnt )
 
@@ -115,7 +115,7 @@ if SERVER then
 			base._HandBrakeForceDisabled = nil
 
 			if IsValid( ply ) then base:SetPhysicsAttacker( ply ) end
-	
+
 			if base._DragOriginalCollisionGroup then
 				base:SetCollisionGroup( base._DragOriginalCollisionGroup )
 				base._DragOriginalCollisionGroup = nil
@@ -184,9 +184,9 @@ if SERVER then
 		if base:WheelsOnGround() then return end
 
 		local PhysObj = base:GetPhysicsObject()
-	
+
 		if not IsValid( PhysObj ) then return end
-	
+
 		PhysObj:SetAngleVelocity( PhysObj:GetAngleVelocity() * 0.8 )
 		PhysObj:SetVelocity( PhysObj:GetVelocity() * 0.8 )
 	end
@@ -236,7 +236,7 @@ if SERVER then
 		self.PosEnt:SetCollisionGroup( COLLISION_GROUP_WORLD )
 		self.PosEnt:Spawn()
 		self.PosEnt:Activate()
-		self.PosEnt:SetNoDraw( true ) 
+		self.PosEnt:SetNoDraw( true )
 		self.PosEnt.DoNotDuplicate = true
 		self:DeleteOnRemove( self.PosEnt )
 
@@ -261,15 +261,15 @@ if SERVER then
 
 				return
 			end
-	
+
 			if not IsValid( target ) or not IsValid( targetBase ) then
 				self.PosEnt:Remove()
-	
+
 				self.IsLinkInProgress = nil
-	
+
 				return
 			end
-	
+
 			self.PosEnt:SetPos( target:GetPos() )
 
 			constraint.Weld( self.PosEnt, targetBase, 0, 0, 0, false, false )
@@ -286,7 +286,7 @@ if SERVER then
 
 				self.PosEnt:Remove()
 
-				self.IsLinkInProgress = nil 
+				self.IsLinkInProgress = nil
 			end )
 		end )
 	end
@@ -333,7 +333,7 @@ end
 local function DrawDiamond( X, Y, radius )
 	local segmentdist = 90
 	local radius2 = radius + 1
-	
+
 	for a = 0, 360, segmentdist do
 		surface.DrawLine( X + math.cos( math.rad( a ) ) * radius, Y - math.sin( math.rad( a ) ) * radius, X + math.cos( math.rad( a + segmentdist ) ) * radius, Y - math.sin( math.rad( a + segmentdist ) ) * radius )
 		surface.DrawLine( X + math.cos( math.rad( a ) ) * radius2, Y - math.sin( math.rad( a ) ) * radius2, X + math.cos( math.rad( a + segmentdist ) ) * radius2, Y - math.sin( math.rad( a + segmentdist ) ) * radius2 )

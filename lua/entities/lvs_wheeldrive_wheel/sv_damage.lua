@@ -122,7 +122,7 @@ function ENT:DestroyTire()
 				local bodyGroupId = id - 1
 
 				self._RestoreBodyGroups[ bodyGroupId ] = self:GetBodygroup( bodyGroupId )
-	
+
 				self:SetBodygroup( bodyGroupId, subid )
 			end
 		end
@@ -130,7 +130,7 @@ function ENT:DestroyTire()
 
 	if not IsValid( self.SuspensionConstraintElastic ) then return end
 
-	local Length = (self.SuspensionConstraintElastic:GetTable().length or 25) - base.WheelPhysicsTireHeight 
+	local Length = (self.SuspensionConstraintElastic:GetTable().length or 25) - base.WheelPhysicsTireHeight
 
 	self.SuspensionConstraintElastic:Fire( "SetSpringLength", math.max( Length - base.WheelPhysicsTireHeight , 1 ) )
 end

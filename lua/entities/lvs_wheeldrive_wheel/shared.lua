@@ -4,7 +4,7 @@ ENT.PrintName = "Wheel"
 ENT.Type            = "anim"
 ENT.DoNotDuplicate = true
 
-ENT.RenderGroup = RENDERGROUP_BOTH 
+ENT.RenderGroup = RENDERGROUP_BOTH
 
 ENT._lvsRepairToolLabel = "Wheel"
 

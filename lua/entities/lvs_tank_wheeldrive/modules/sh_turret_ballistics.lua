@@ -58,7 +58,7 @@ if SERVER then
 		local startpos, found = base:GetTurretViewOrigin()
 
 		if not found then return weapon:GetEyeTrace() end
-	
+
 		local pod = weapon:GetDriverSeat()
 
 		if IsValid( pod ) and pod:GetThirdPersonMode() then
@@ -193,7 +193,7 @@ else
 		surface.SetMaterial( EntTable.IconTurretBody )
 		surface.DrawTexturedRectRotated( X + W * 0.5 + 2, Y + H * 0.5 + 2, IconSize, IconSize, yaw_body )
 
-		
+
 		local BodyColor = EntTable.TurretColorMain
 
 		for _, wheel in pairs( self:GetWheels() ) do
@@ -324,7 +324,7 @@ function ENT:AimTurret()
 	if SERVER then
 		local AimAngles = self:CalcTurretAngles( EntTable )
 
-		local AimRate = EntTable.TurretAimRate * FrameTime() 
+		local AimRate = EntTable.TurretAimRate * FrameTime()
 
 		if self:GetTurretDamaged() then
 			AimRate = AimRate * EntTable.TurretRateDestroyedMul

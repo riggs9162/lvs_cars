@@ -97,7 +97,7 @@ function ENT:PaintOptics( Pos2D, Col, PodIndex, Type )
 		if i == 5 then
 			self:DrawRotatedText( "Pzgr", Pos2D.x + x * R0, Pos2D.y + y * R0, "LVS_FONT", Color(0,0,0,200), 90 + ang)
 		end
-	
+
 		surface.SetMaterial( circle )
 		surface.DrawTexturedRectRotated( Pos2D.x + x * R, Pos2D.y + y * R, 16, 16, 0 )
 

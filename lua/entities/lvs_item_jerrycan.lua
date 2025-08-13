@@ -61,7 +61,7 @@ if SERVER then
 		return ent
 	end
 
-	function ENT:Initialize()	
+	function ENT:Initialize()
 		self:SetModel( "models/misc/fuel_can.mdl" )
 		self:PhysicsInit( SOLID_VPHYSICS )
 		self:SetUseType( SIMPLE_USE )
@@ -93,7 +93,7 @@ if SERVER then
 		self:SetUser( ply )
 
 		local SWEP = ply:GetWeapon( "weapon_lvsfuelfiller" )
-	
+
 		if not IsValid( SWEP ) then return end
 
 		SWEP:SetFuelType( self:GetFuelType() )
@@ -171,7 +171,7 @@ if SERVER then
 					self:giveSWEP( ply )
 				end
 			end
-	
+
 			return
 		end
 
@@ -328,7 +328,7 @@ if CLIENT then
 			particle:SetVelocity( Up * math.abs( Up.z ) * 100 )
 			particle:SetGravity( Vector( 0, 0, -600 ) )
 			particle:SetDieTime( 2 )
-			particle:SetAirResistance( 0 ) 
+			particle:SetAirResistance( 0 )
 			particle:SetStartAlpha( 255 )
 			particle:SetStartSize( 1.5 )
 			particle:SetEndSize( 1.5 )
@@ -336,12 +336,12 @@ if CLIENT then
 			particle:SetColor( 240,200,0,255 )
 			particle:SetCollide( true )
 			particle:SetCollideCallback( function( part, hitpos, hitnormal )
-				local effectdata = EffectData() 
-					effectdata:SetOrigin( hitpos ) 
-					effectdata:SetNormal( hitnormal * 2 ) 
-					effectdata:SetMagnitude( 0.2 ) 
-					effectdata:SetScale( 0.2 ) 
-					effectdata:SetRadius( 0.2 ) 
+				local effectdata = EffectData()
+					effectdata:SetOrigin( hitpos )
+					effectdata:SetNormal( hitnormal * 2 )
+					effectdata:SetMagnitude( 0.2 )
+					effectdata:SetScale( 0.2 )
+					effectdata:SetRadius( 0.2 )
 				util.Effect( "StriderBlood", effectdata )
 
 				sound.Play( "ambient/water/water_spray"..math.random(1,3)..".wav", hitpos, 55, math.Rand(95,105), 0.5 )

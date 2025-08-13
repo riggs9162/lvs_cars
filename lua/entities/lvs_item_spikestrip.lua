@@ -10,7 +10,7 @@ ENT.Category = "[LVS]"
 ENT.Spawnable		= true
 ENT.AdminOnly		= false
 
-ENT.RenderGroup = RENDERGROUP_BOTH 
+ENT.RenderGroup = RENDERGROUP_BOTH
 
 ENT.PhysicsSounds = true
 
@@ -43,7 +43,7 @@ if SERVER then
 
 	function ENT:UpdateFold()
 	end
-	
+
 	function ENT:Think()
 		local PhysObj = self:GetPhysicsObject()
 
@@ -116,7 +116,7 @@ if SERVER then
 		local dmginfo = DamageInfo()
 		dmginfo:SetDamage( entity:GetHP() )
 		dmginfo:SetAttacker( self:GetAttacker() )
-		dmginfo:SetDamageType( DMG_PREVENT_PHYSICS_FORCE ) 
+		dmginfo:SetDamageType( DMG_PREVENT_PHYSICS_FORCE )
 
 		entity:TakeDamageInfo( dmginfo )
 

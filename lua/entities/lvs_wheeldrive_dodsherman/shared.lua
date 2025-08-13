@@ -159,7 +159,7 @@ function ENT:InitWeapons()
 				filter = ent:GetCrosshairFilterEnts()
 			} )
 
-			local MuzzlePos2D = traceTurret.HitPos:ToScreen() 
+			local MuzzlePos2D = traceTurret.HitPos:ToScreen()
 
 			ent:PaintCrosshairCenter( MuzzlePos2D, COLOR_WHITE )
 			ent:LVSPaintHitMarker( MuzzlePos2D )
@@ -268,7 +268,7 @@ function ENT:InitWeapons()
 				filter = ent:GetCrosshairFilterEnts()
 			} )
 
-			local MuzzlePos2D = traceTurret.HitPos:ToScreen() 
+			local MuzzlePos2D = traceTurret.HitPos:ToScreen()
 
 			if ent:GetUseHighExplosive() then
 				ent:PaintCrosshairSquare( MuzzlePos2D, COLOR_WHITE )
@@ -357,7 +357,7 @@ function ENT:AddGunnerWeapons()
 			if not IsValid( base.SNDTurretMGf ) then return true end
 
 			base.SNDTurretMGf:Stop()
-	
+
 			return true
 		end
 
