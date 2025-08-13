@@ -38,13 +38,13 @@ local function SetMinimumAngularVelocityTo( new )
 		tbl.MaxAngularVelocity = new
 		physenv.SetPerformanceSettings( tbl )
 
-		print("[LVS-Cars] Wheels require higher MaxAngularVelocity to perform correctly! Increasing! "..OldAngVel.." =>"..new)
+		print("[LVS-Cars] Wheels require higher MaxAngularVelocity to perform correctly! Increasing! " .. OldAngVel .. " => " .. new)
 	end
 end
 
 local function IsServerOK( class )
 
-	if GetConVar( "gmod_physiterations" ):GetInt() ~= 4 then
+	if GetConVar( "gmod_physiterations" ):GetInt() != 4 then
 		RunConsoleCommand("gmod_physiterations", "4")
 
 		return false
@@ -310,7 +310,7 @@ function ENT:SimulateRotatingWheel( ent, phys, deltatime )
 
 			if self:PivotSteer() then
 				local RotationDirection = ent:GetWheelType() * self:GetPivotSteer()
-	
+
 				if EntTable.PivotSteerByBrake and RotationDirection < 0 then
 					ent:LockRotation( true )
 
@@ -357,21 +357,43 @@ function ENT:SimulateRotatingWheel( ent, phys, deltatime )
 		return ForceAngle * forceMul, vector_origin, SIM_GLOBAL_ACCELERATION
 	end
 
-	local ForceLinear = -self:GetUp() * EntTable.WheelDownForce * TorqueFactor - Right * math.Clamp(Fy * 5 * math.min( math.abs( Fx ) / 500, 1 ),-EntTable.WheelSideForce,EntTable.WheelSideForce) * EntTable.ForceLinearMultiplier
+		-- Internal tire smoothing: boost downforce/damping, soften side force
+		local downforceBoost = 1.25
+		local dampingBoost = 1.18
+		local sideForceSoft = 0.85
+		local ForceLinear = -self:GetUp() * EntTable.WheelDownForce * TorqueFactor * downforceBoost
+			- Right * math.Clamp(Fy * 5 * math.min( math.abs( Fx ) / 500, 1 ),-EntTable.WheelSideForce * sideForceSoft,EntTable.WheelSideForce * sideForceSoft) * EntTable.ForceLinearMultiplier * dampingBoost
 
 	return ForceAngle * forceMul, ForceLinear * forceMul, SIM_GLOBAL_ACCELERATION
 end
 
 function ENT:SteerTo( TargetValue, MaxSteer )
 	local Cur = self:GetSteer() / MaxSteer
-	
 	local Diff = TargetValue - Cur
+
+	-- Apply small deadzone to avoid micro twitch
+	if math.abs(Diff) < (self.SteerDeadzone or 0) then
+		Diff = 0
+	end
 
 	local Returning = (Diff > 0 and Cur < 0) or (Diff < 0 and Cur > 0)
 
-	local Rate = FrameTime() * (Returning and self.SteerReturnSpeed or self.SteerSpeed)
+	-- Speed-sensitive rates (internally boosted for snappier response)
+	local speed = self:GetVelocity():Length()
+	local highMul = 1 - math.Clamp(speed / (self.PhysicsDampingSpeed or 4000), 0, 1)
+	local rateBase = (Returning and self.SteerReturnSpeed or self.SteerSpeed)
+	local internalBoost = 4
+	local rate = FrameTime() * (rateBase * (highMul + (1 - highMul) * (self.SteerHighSpeedRateMul or 0.5))) * internalBoost
+	local accelLimit = (self.SteerAccelLimit or 3.5) * FrameTime() * internalBoost
 
-	local New = (Cur + math.Clamp(Diff,-Rate,Rate))
+	-- Primary clamp and acceleration limiting
+	local step = math.Clamp(Diff, -rate, rate)
+	step = math.Clamp(step, -accelLimit, accelLimit)
+	local New = Cur + step
+
+	-- Extra smoothing
+	local smooth = math.Clamp(FrameTime() * (self.SteerSmoothingRate or 10), 0, 1)
+	New = Lerp(smooth, Cur, New)
 
 	self:SetSteer( New * MaxSteer )
 
@@ -456,7 +478,7 @@ function ENT:OnMaintenance()
 	if IsValid( FuelTank ) then
 		FuelTank:ExtinguishAndRepair()
 
-		if FuelTank:GetFuel() ~= 1 then
+		if FuelTank:GetFuel() != 1 then
 			FuelTank:SetFuel( 1 )
 
 			self:OnRefueled()
@@ -484,7 +506,6 @@ function ENT:ApproachTargetAngle( TargetAngle )
 	local ang = pod:GetAngles()
 	ang:RotateAroundAxis( self:GetUp(), 90 )
 
-	local Forward = ang:Right()
 	local View = pod:WorldToLocalAngles( TargetAngle ):Forward()
 
 	local Reversed = false
