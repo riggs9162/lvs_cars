@@ -37,8 +37,6 @@ function ENT:CalcSteer( ply )
 		end
 
 		if not KeyLeft and not KeyRight then
-			local Cur = self:GetSteer() / MaxSteer
-
 			local MaxHelpAng = math.min( MaxSteer, EntTable.SteerAssistMaxAngle )
 
 			local Ang = self:AngleBetweenNormal( Right, VelNormal ) - 90
@@ -67,9 +65,10 @@ end
 function ENT:LerpThrottle( Throttle )
 	if not self:GetEngineActive() then self:SetThrottle( 0 ) return end
 
-	local Rate = FrameTime() * self.ThrottleRate
+	-- Interpolate throttle for smooth ramp-up/ramp-down
 	local Cur = self:GetThrottle()
-	local New = Cur + math.Clamp(Throttle - Cur,-Rate,Rate)
+	local interpRate = FrameTime() * self.ThrottleRate * 0.6 -- 0.6x for extra smoothness
+	local New = Cur + (Throttle - Cur) * math.Clamp(interpRate, 0, 1)
 
 	self:SetThrottle( New )
 end
@@ -101,6 +100,18 @@ function ENT:CalcThrottle( ply )
 		return
 	end
 
+	-- Traction assist: reduce throttle when lateral slip is high
+	if self.TractionAssistEnable then
+		local Vel = self:GetVelocity()
+		local right = self:GetRight()
+		local vy = self:VectorSplitNormal(right, Vel)
+		local slip = math.abs(vy)
+		local ref = self.TractionAssistLateralRef or 300
+		local slipFrac = math.Clamp(slip / math.max(ref, 1), 0, 1)
+		local reduce = slipFrac * (self.TractionAssistStrength or 0.5)
+		Throttle = Throttle * (1 - reduce)
+	end
+
 	self:LerpThrottle( Throttle )
 	self:LerpBrake( KeyBrakes and 1 or 0 )
 end
@@ -124,7 +135,7 @@ function ENT:CalcTransmission( ply, T )
 
 		local Reverse = self:GetReverse()
 
-		if Reverse ~= EntTable._oldKeyReverse then
+		if Reverse != EntTable._oldKeyReverse then
 			EntTable._oldKeyReverse = Reverse
 
 			self:EmitSound( EntTable.TransShiftSound, 75 )
@@ -175,7 +186,7 @@ function ENT:CalcTransmission( ply, T )
 
 	local Reverse = self:GetReverse()
 
-	if Reverse ~= EntTable._oldKeyReverse then
+	if Reverse != EntTable._oldKeyReverse then
 		EntTable._oldKeyReverse = Reverse
 
 		self:EmitSound( EntTable.TransShiftSound, 75 )
@@ -191,7 +202,7 @@ function ENT:CalcLights( ply, T )
 
 	local EntTable = self:GetTable()
 
-	if EntTable._lights ~= lights then
+	if EntTable._lights != lights then
 		EntTable._lights = lights
 
 		if lights then
@@ -205,7 +216,7 @@ function ENT:CalcLights( ply, T )
 		lights = false
 	end
 
-	if lights ~= EntTable._oldlights then
+	if lights != EntTable._oldlights then
 		if not isbool( EntTable._oldlights ) then EntTable._oldlights = lights return end
 
 		if lights then
@@ -247,7 +258,7 @@ function ENT:CalcLights( ply, T )
 end
 
 function ENT:StartCommand( ply, cmd )
-	if self:GetDriver() ~= ply then return end
+	if self:GetDriver() != ply then return end
 
 	local EntTable = self:GetTable()
 
@@ -311,7 +322,7 @@ function ENT:CalcSiren( ply, T )
 	if istable( EntTable.SirenSound ) and IsValid( EntTable.SirenSND ) then
 		local siren = ply:lvsKeyDown( "CAR_SIREN" )
 
-		if EntTable._siren ~= siren then
+		if EntTable._siren != siren then
 			EntTable._siren = siren
 
 			if siren then
@@ -325,7 +336,7 @@ function ENT:CalcSiren( ply, T )
 			siren = false
 		end
 
-		if siren ~= EntTable._oldsiren then
+		if siren != EntTable._oldsiren then
 			if not isbool( EntTable._oldsiren ) then EntTable._oldsiren = siren return end
 
 			if siren then
@@ -345,7 +356,7 @@ function ENT:CalcSiren( ply, T )
 
 			EntTable._oldsiren = siren
 		else
-			if horn ~= EntTable._OldKeyHorn then
+			if horn != EntTable._OldKeyHorn then
 				EntTable._OldKeyHorn = horn
 
 				if horn then
@@ -359,7 +370,7 @@ function ENT:CalcSiren( ply, T )
 end
 
 function ENT:SetSirenSound( sound )
-	if sound then 
+	if sound then
 		if self._PreventSiren then return end
 
 		self._PreventSiren = true
