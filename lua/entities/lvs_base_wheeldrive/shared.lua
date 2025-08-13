@@ -38,6 +38,12 @@ ENT.TransShiftSound = "lvs/vehicles/generic/gear_shift.wav"
 
 ENT.SteerSpeed = 3
 ENT.SteerReturnSpeed = 10
+-- Dynamic steering and stability tuning
+ENT.SteerDeadzone = 0.02                 -- small deadzone to avoid twitch
+ENT.SteerHighSpeedRateMul = 0.5          -- reduce steer rate as speed rises
+ENT.SteerReturnHighSpeedMul = 1.3        -- increase return-to-center at speed
+ENT.SteerSmoothingRate = 10              -- extra smoothing factor (1/s)
+ENT.SteerAccelLimit = 3.5                -- max steer change per second (normalized)
 
 ENT.FastSteerActiveVelocity = 500
 ENT.FastSteerAngleClamp = 10
@@ -85,6 +91,11 @@ ENT.WheelBrakeForce = 400
 
 ENT.WheelSideForce = 800
 ENT.WheelDownForce = 500
+
+-- Traction assist moderates throttle when lateral slip is high
+ENT.TractionAssistEnable = true
+ENT.TractionAssistLateralRef = 300       -- reference lateral speed for onset
+ENT.TractionAssistStrength = 0.5         -- scales how much throttle is reduced
 
 ENT.AllowSuperCharger = true
 ENT.SuperChargerVolume = 0.6
