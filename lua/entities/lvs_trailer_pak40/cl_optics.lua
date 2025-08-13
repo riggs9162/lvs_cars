@@ -68,7 +68,7 @@ function ENT:PaintOptics( Pos2D, Col, PodIndex, Type )
 
 	local TargetOffset = 0
 
-	if OldTargetOffset ~= TargetOffset then
+	if OldTargetOffset != TargetOffset then
 		OldTargetOffset = TargetOffset
 		surface.PlaySound( "lvs/optics.wav" )
 	end

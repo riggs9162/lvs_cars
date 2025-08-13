@@ -76,7 +76,7 @@ if SERVER then
 	end
 
 	function ENT:Touch( entity )
-		if not IsValid( entity ) or entity:GetClass() ~= "lvs_wheeldrive_wheel" then return end
+		if not IsValid( entity ) or entity:GetClass() != "lvs_wheeldrive_wheel" then return end
 
 		local Destroy = entity:GetVelocity():Length() > 200
 

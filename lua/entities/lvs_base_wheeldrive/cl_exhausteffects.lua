@@ -25,10 +25,10 @@ function ENT:ExhaustEffectsThink()
 
 	local Throttle = self:GetThrottle()
 
-	if self._backfireTHR ~= Throttle then
+	if self._backfireTHR != Throttle then
 		self._backfireTHR = Throttle
 
-		if Throttle ~= 0 then return end
+		if Throttle != 0 then return end
 
 		self:CalcExhaustPop()
 	end
@@ -47,13 +47,13 @@ function ENT:CalcExhaustPop()
 
 	if Throttle > 0 and Throttle < 0.6 then return end
 
-	if Throttle ~= 0 or (not IsValid( self:GetTurbo() ) and not IsValid( self:GetCompressor() )) then num = 0 end
+	if Throttle != 0 or (not IsValid( self:GetTurbo() ) and not IsValid( self:GetCompressor() )) then num = 0 end
 
 	for i = 0, num do
 		timer.Simple( self.TransShiftSpeed + i * 0.1 , function()
 			if not IsValid( self ) then return end
 
-			if i > 0 and self:GetThrottle() ~= 0 then return end
+			if i > 0 and self:GetThrottle() != 0 then return end
 
 			local Engine = self:GetEngine()
 
@@ -99,7 +99,7 @@ function ENT:DoExhaustBackFire()
 			if not self:BodygroupIsValid( data.bodygroup.name, data.bodygroup.active ) then continue end
 		end
 
-		if math.random( 1, math.floor( #self.ExhaustPositions * 0.75 ) ) ~= 1 then continue end
+		if math.random( 1, math.floor( #self.ExhaustPositions * 0.75 ) ) != 1 then continue end
 
 		timer.Simple( math.Rand(0.5,1), function()
 			local effectdata = EffectData()

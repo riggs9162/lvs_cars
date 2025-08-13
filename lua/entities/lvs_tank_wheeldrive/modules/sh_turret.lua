@@ -108,7 +108,7 @@ if CLIENT then
 		local plyL = LocalPlayer()
 		local ply = pod:GetDriver()
 
-		if ply ~= plyL then return end
+		if ply != plyL then return end
 
 		self:AimTurret()
 	end
@@ -133,7 +133,7 @@ else
 	util.AddNetworkString( "lvs_turret_sync_other" )
 
 	function ENT:OnPassengerChanged( Old, New, PodIndex )
-		if PodIndex ~= self.TurretPodIndex then return end
+		if PodIndex != self.TurretPodIndex then return end
 
 		if IsValid( New ) then return end
 
@@ -187,7 +187,7 @@ else
 
 				sound:ChangeVolume( volume * 0.25, 0.25 )
 			end
-	
+
 			local sound = self:StartTurretSound()
 
 			sound:ChangeVolume( volume * 0.25, 0.25 )
@@ -274,7 +274,7 @@ else
 		Master:Activate()
 		self:DeleteOnRemove( Master )
 		self:TransferCPPI( Master )
-	
+
 		Follower:SetModel( data.mdl )
 		Follower:SetPos( attFollow.Pos )
 		Follower:SetAngles( self:GetAngles() )
@@ -320,7 +320,7 @@ function ENT:AimTurret()
 		AimAngles = self:WorldToLocalAngles( (self:LocalToWorld( EntTable.TurretFakeBarrelRotationCenter ) - weapon:GetEyeTrace().HitPos):Angle() )
 	end
 
-	local AimRate = EntTable.TurretAimRate * FrameTime() 
+	local AimRate = EntTable.TurretAimRate * FrameTime()
 
 	if self:GetTurretDamaged() then
 		AimRate = AimRate * EntTable.TurretRateDestroyedMul

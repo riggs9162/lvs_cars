@@ -10,7 +10,7 @@ function ENT:RemovePlayerModel( name )
 	if not istable( self._PlayerModels ) then return end
 
 	for id, model in pairs( self._PlayerModels ) do
-		if name and id ~= name then continue end
+		if name and id != name then continue end
 
 		if not IsValid( model ) then continue end
 

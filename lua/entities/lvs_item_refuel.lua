@@ -84,7 +84,7 @@ if SERVER then
 
 		local weapon = ply:GetActiveWeapon()
 
-		if not IsValid( weapon ) or weapon:GetClass() ~= "weapon_lvsfuelfiller" then
+		if not IsValid( weapon ) or weapon:GetClass() != "weapon_lvsfuelfiller" then
 			self:removeSWEP( ply )
 
 			return
@@ -162,7 +162,7 @@ if CLIENT then
 		local ShouldDraw = IsValid( self:GetUser() )
 		local Draw = PumpEnt:GetNoDraw()
 
-		if Draw ~= ShouldDraw then
+		if Draw != ShouldDraw then
 			PumpEnt:SetNoDraw( ShouldDraw )
 		end
 	end

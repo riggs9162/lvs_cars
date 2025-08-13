@@ -48,7 +48,7 @@ end
 local angle_zero = Angle(0,0,0)
 
 function ENT:GetPlayerBoneManipulation( ply, PodID )
-	if PodID ~= 1 then return self.PlayerBoneManipulate[ PodID ] or {} end
+	if PodID != 1 then return self.PlayerBoneManipulate[ PodID ] or {} end
 
 	local TargetValue = self:ShouldPutFootDown() and 1 or 0
 

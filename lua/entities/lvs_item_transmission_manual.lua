@@ -41,7 +41,7 @@ if SERVER then
 
 		if isfunction( ent.IsManualTransmission ) and ent:IsManualTransmission() then return end
 
-		if ent:EnableManualTransmission() ~= false then
+		if ent:EnableManualTransmission() != false then
 			ent:EmitSound("npc/dog/dog_rollover_servos1.wav")
 
 			self.MarkForRemove = true

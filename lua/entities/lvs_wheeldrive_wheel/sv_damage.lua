@@ -84,7 +84,7 @@ function ENT:StopLeakAir()
 end
 
 function ENT:HealthValueChanged( name, old, new)
-	if new == old or old > new or new ~= self:GetMaxHP() then return end
+	if new == old or old > new or new != self:GetMaxHP() then return end
 
 	self:RepairTire()
 end
@@ -153,7 +153,7 @@ function ENT:RepairTire()
 
 	local PhysObj = self:GetPhysicsObject()
 
-	if not IsValid( PhysObj ) or PhysObj:GetMaterial() ~= "glass" then
+	if not IsValid( PhysObj ) or PhysObj:GetMaterial() != "glass" then
 		goto FinishRepairTire
 	end
 

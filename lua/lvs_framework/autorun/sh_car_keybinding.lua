@@ -134,7 +134,7 @@ if SERVER then
 
 		local veh = ply:lvsGetVehicle()
 
-		if not IsValid( veh ) or veh:GetDriver() ~= ply then return end
+		if not IsValid( veh ) or veh:GetDriver() != ply then return end
 
 		veh:SetTurnMode( net.ReadInt( 4 ) )
 	end )

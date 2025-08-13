@@ -183,7 +183,7 @@ if CLIENT then
 		local fuelamount = FuelTank:GetFuel()
 		local fueltype = FuelTank:GetFuelType()
 
-		if fueltype ~= self:GetFuelType() then
+		if fueltype != self:GetFuelType() then
 
 			local FuelName = LVS.FUELTYPES[ fueltype ].name or ""
 
@@ -271,7 +271,7 @@ function SWEP:Refuel( trace )
 
 	if not IsValid( FuelTank ) then return end
 
-	if FuelTank:GetFuelType() ~= self:GetFuelType() then return end
+	if FuelTank:GetFuelType() != self:GetFuelType() then return end
 
 	if IsValid( FuelCap ) then
 		if not FuelCap:IsOpen() then return end

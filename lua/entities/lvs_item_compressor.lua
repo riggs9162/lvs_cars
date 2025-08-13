@@ -11,7 +11,7 @@ ENT.Spawnable			= true
 ENT.AdminSpawnable		= false
 
 if SERVER then
-	function ENT:Initialize()	
+	function ENT:Initialize()
 		self:SetModel("models/diggercars/dodge_charger/blower_animated.mdl")
 		self:PhysicsInit( SOLID_VPHYSICS )
 		self:SetMoveType( MOVETYPE_VPHYSICS )
@@ -120,7 +120,7 @@ function ENT:Think()
 
 	local EngineActive = vehicle:GetEngineActive()
 
-	if self._oldEnActive ~= EngineActive then
+	if self._oldEnActive != EngineActive then
 		self._oldEnActive = EngineActive
 
 		self:OnEngineActiveChanged( EngineActive, vehicle.SuperChargerSound )

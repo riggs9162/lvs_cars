@@ -52,7 +52,7 @@ else
 
 		local EngineActive = vehicle:GetEngineActive()
 
-		if self._oldEnActive ~= EngineActive then
+		if self._oldEnActive != EngineActive then
 			self._oldEnActive = EngineActive
 
 			self:OnEngineActiveChanged( EngineActive )

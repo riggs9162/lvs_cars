@@ -2,10 +2,10 @@
 local function SetAll( ent, n )
 	if not IsValid( ent ) then return end
 
-	ent:SetPoseParameter("vehicle_wheel_fl_height",n) 
-	ent:SetPoseParameter("vehicle_wheel_fr_height",n) 
-	ent:SetPoseParameter("vehicle_wheel_rl_height",n) 
-	ent:SetPoseParameter("vehicle_wheel_rr_height",n)
+	ent:SetPoseParameter( "vehicle_wheel_fl_height", n )
+	ent:SetPoseParameter( "vehicle_wheel_fr_height", n )
+	ent:SetPoseParameter( "vehicle_wheel_rl_height", n )
+	ent:SetPoseParameter( "vehicle_wheel_rr_height", n )
 end
 
 function ENT:CreateRigControler( name, wheelEntity, min, max )
@@ -72,7 +72,7 @@ function ENT:AddWheelsUsingRig( FrontRadius, RearRadius, data )
 	ForwardAngle.p = 0
 	ForwardAngle.y = math.Round( ForwardAngle.y, 0 )
 	ForwardAngle.r = 0
-	ForwardAngle:Normalize() 
+	ForwardAngle:Normalize()
 
 	local FL = self:AddWheel( { hide = (not isstring( data.mdl_fl )), pos = pFL0, radius = FrontRadius, mdl = data.mdl_fl, mdl_ang = data.mdl_ang_fl } )
 	local FR = self:AddWheel( { hide = (not isstring( data.mdl_fr )), pos = pFR0, radius = FrontRadius, mdl = data.mdl_fr, mdl_ang = data.mdl_ang_fr } )

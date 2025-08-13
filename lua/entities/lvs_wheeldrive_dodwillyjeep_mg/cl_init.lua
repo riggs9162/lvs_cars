@@ -2,7 +2,7 @@ include("shared.lua")
 
 function ENT:CalcViewPassenger( ply, pos, angles, fov, pod )
 
-	if pod ~= self:GetGunnerSeat() then
+	if pod != self:GetGunnerSeat() then
 		return LVS:CalcView( self, ply, pos, angles, fov, pod )
 	end
 

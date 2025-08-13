@@ -178,7 +178,7 @@ function ENT:InitWeapons()
 	weapon.HeatRateUp = 1
 	weapon.HeatRateDown = 0.33
 	weapon.OnThink = function( ent )
-		if ent:GetSelectedWeapon() ~= 2 then return end
+		if ent:GetSelectedWeapon() != 2 then return end
 
 		local ply = ent:GetDriver()
 
@@ -186,7 +186,7 @@ function ENT:InitWeapons()
 
 		local SwitchType = ply:lvsKeyDown( "CAR_SWAP_AMMO" )
 
-		if ent._oldSwitchType ~= SwitchType then
+		if ent._oldSwitchType != SwitchType then
 			ent._oldSwitchType = SwitchType
 
 			if SwitchType then

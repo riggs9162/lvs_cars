@@ -5,7 +5,7 @@ ENT.DSArmorBulletPenetrationAdd = 50
 DEFINE_BASECLASS( "lvs_base" )
 
 function ENT:OnTakeDamage( dmginfo )
-	self.LastAttacker = dmginfo:GetAttacker() 
+	self.LastAttacker = dmginfo:GetAttacker()
 	self.LastInflictor = dmginfo:GetInflictor()
 
 	BaseClass.OnTakeDamage( self, dmginfo )
@@ -69,7 +69,7 @@ function ENT:Explode()
 
 			pps[ sPose ] = self:GetPoseParameter( sPose )
 		end
-	
+
 		self:SetModel( self.MDL_DESTROYED )
 		self:PhysicsDestroy()
 		self:PhysicsInit( SOLID_VPHYSICS )

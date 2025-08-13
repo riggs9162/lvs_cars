@@ -151,7 +151,7 @@ end
 function ENT:OnCollision( data, physobj )
 	local ent = data.HitEntity
 
-	if not IsValid( ent ) or ent:GetClass() ~= "lvs_trailer_flak" then return end
+	if not IsValid( ent ) or ent:GetClass() != "lvs_trailer_flak" then return end
 
 	timer.Simple(0, function()
 		if not IsValid( self ) or not IsValid( ent ) then return end

@@ -56,7 +56,7 @@ function ENT:RPMToVel( rpm )
 end
 
 function ENT:CheckAlignment()
-	self.CamberCasterToe = (math.abs( self:GetToe() ) + math.abs( self:GetCaster() ) + math.abs( self:GetCamber() )) ~= 0
+	self.CamberCasterToe = (math.abs( self:GetToe() ) + math.abs( self:GetCaster() ) + math.abs( self:GetCamber() )) != 0
 
 	if CLIENT then return end
 

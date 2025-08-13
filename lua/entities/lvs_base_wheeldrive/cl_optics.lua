@@ -55,7 +55,7 @@ function ENT:GetOpticsEnabled()
 end
 
 function ENT:UseOptics()
-	if self.OpticsZoomOnly and self:GetZoom() ~= 1 then return false end
+	if self.OpticsZoomOnly and self:GetZoom() != 1 then return false end
 
 	return self:GetOpticsEnabled()
 end

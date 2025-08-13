@@ -8,7 +8,7 @@ function ENT:DisableManualTransmission()
 end
 
 function ENT:CalcManualTransmission( ply, EntTable, ShiftUp, ShiftDn )
-	if ShiftUp ~= EntTable._oldShiftUp then
+	if ShiftUp != EntTable._oldShiftUp then
 		EntTable._oldShiftUp = ShiftUp
 
 		if ShiftUp then
@@ -16,7 +16,7 @@ function ENT:CalcManualTransmission( ply, EntTable, ShiftUp, ShiftDn )
 		end
 	end
 
-	if ShiftDn ~= EntTable._oldShiftDn then
+	if ShiftDn != EntTable._oldShiftDn then
 		EntTable._oldShiftDn = ShiftDn
 
 		if ShiftDn then

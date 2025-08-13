@@ -316,7 +316,7 @@ function ENT:CalcMainActivityPassenger( ply )
 
 	if not IsValid( GunnerSeat ) then return end
 
-	if GunnerSeat:GetDriver() ~= ply then return end
+	if GunnerSeat:GetDriver() != ply then return end
 
 	if ply.m_bWasNoclipping then 
 		ply.m_bWasNoclipping = nil 

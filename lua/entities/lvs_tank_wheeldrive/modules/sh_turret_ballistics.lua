@@ -99,7 +99,7 @@ if SERVER then
 					ForceNoCompensation = true
 				end
 
-				if ply ~= weapon._LastBallisticsSendTo then
+				if ply != weapon._LastBallisticsSendTo then
 					weapon._LastBallisticsSendTo = ply
 
 					local velocity = EntTable.TurretBallisticsProjectileVelocity
@@ -176,7 +176,7 @@ else
 	function ENT:LVSHudPaintTurretInfo( X, Y, W, H, ScrX, ScrY, ply )
 		local pod = ply:GetVehicle()
 
-		if not IsValid( pod ) or pod:lvsGetPodIndex() ~= self.TurretPodIndex then return end
+		if not IsValid( pod ) or pod:lvsGetPodIndex() != self.TurretPodIndex then return end
 
 		local EntTable = self:GetTable()
 

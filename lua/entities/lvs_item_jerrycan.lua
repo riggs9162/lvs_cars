@@ -118,7 +118,7 @@ if SERVER then
 
 		local weapon = ply:GetActiveWeapon()
 
-		if not IsValid( weapon ) or weapon:GetClass() ~= "weapon_lvsfuelfiller" then
+		if not IsValid( weapon ) or weapon:GetClass() != "weapon_lvsfuelfiller" then
 			self:removeSWEP( ply )
 
 			return

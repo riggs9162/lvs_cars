@@ -6,7 +6,7 @@ function EFFECT:Init( data )
 	local emitter = ParticleEmitter( pos, false )
 
 	for i = 1, 360 do
-		if math.random(1,30) ~= 10 then continue end
+		if math.random(1,30) != 10 then continue end
 
 		local ang = i
 

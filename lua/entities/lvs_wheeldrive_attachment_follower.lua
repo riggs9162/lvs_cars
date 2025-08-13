@@ -81,7 +81,7 @@ if SERVER then
 		local OldAng = Master:GetAngles()
 		local NewAng = att.Ang
 
-		if OldAng ~= NewAng then
+		if OldAng != NewAng then
 			Master:SetAngles( att.Ang )
 			self:PhysWake()
 		end
@@ -110,7 +110,7 @@ if SERVER then
 		local children = self:GetChildren()
 
 		for _, entity in pairs( children ) do
-			if entity:GetClass() ~= "lvs_armor" then continue end
+			if entity:GetClass() != "lvs_armor" then continue end
 
 			OldTotalHealth = OldTotalHealth + entity:GetHP()
 
@@ -132,7 +132,7 @@ if SERVER then
 		base:OnTakeDamage( dmginfo )
 
 		for _, entity in pairs( children ) do
-			if entity:GetClass() ~= "lvs_armor" then continue end
+			if entity:GetClass() != "lvs_armor" then continue end
 
 			local HP = entity:GetHP()
 

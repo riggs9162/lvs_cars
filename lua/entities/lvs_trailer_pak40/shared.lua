@@ -52,7 +52,7 @@ function ENT:OnSetupDataTables()
 end
 
 function ENT:CalcMainActivity( ply )
-	if ply ~= self:GetDriver() then return self:CalcMainActivityPassenger( ply ) end
+	if ply != self:GetDriver() then return self:CalcMainActivityPassenger( ply ) end
 
 	if ply.m_bWasNoclipping then 
 		ply.m_bWasNoclipping = nil 
@@ -85,7 +85,7 @@ function ENT:InitWeapons()
 
 		local SwitchType = ply:lvsKeyDown( "CAR_SWAP_AMMO" )
 
-		if ent._oldSwitchType ~= SwitchType then
+		if ent._oldSwitchType != SwitchType then
 			ent._oldSwitchType = SwitchType
 
 			if SwitchType then

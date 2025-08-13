@@ -37,7 +37,7 @@ function ENT:TireSoundThink()
 			local pitch = 100 + math.Clamp((speed - 400) / 200,0,155)
 
 			sound:ChangeVolume( volume, 0 )
-			sound:ChangePitch( pitch, 0.5 ) 
+			sound:ChangePitch( pitch, 0.5 )
 		else
 			self:StopTireSound( snd )
 		end

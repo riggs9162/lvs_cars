@@ -17,11 +17,11 @@ function ENT:CreateSubMaterial( SubMaterialID, name )
 
 	if not mat then return end
 
-	local string_data = file.Read( "materials/"..mat..".vmt", "GAME" )
+	local stringData = file.Read( "materials/"..mat..".vmt", "GAME" )
 
-	if not string_data then return end
+	if not stringData then return end
 
-	return CreateMaterial( name, "VertexLitGeneric", util.KeyValuesToTable( string_data ) )
+	return CreateMaterial( name, "VertexLitGeneric", util.KeyValuesToTable( stringData ) )
 end
 
 function ENT:QuickLerp( name, target, rate )
@@ -84,7 +84,7 @@ function ENT:CalcPoseParameters()
 		local Use1 = lights:GetActive() and 0.1 or 0
 		local Use2 = lights:GetHighActive() and 0.15 or 0
 		local Use3 = lights:GetFogActive() and 0.05 or 0
-		local Use4 = (self:GetTurnMode() ~= 0 and  self:GetTurnFlasher()) and 0.03 or 0
+		local Use4 = (self:GetTurnMode() != 0 and  self:GetTurnFlasher()) and 0.03 or 0
 
 		ammeter = self:QuickLerp( "ammeter", math.max( Available - Use1 - Use2 - Use3 - Use4, 0 ), math.Rand(1,10) )
 	end
@@ -112,7 +112,7 @@ function ENT:Think()
 		self:InvalidateBoneCache()
 	end
  end
- 
+
 function ENT:OnRemove()
 	self:TireSoundRemove()
 
@@ -191,7 +191,7 @@ function ENT:GetWheels()
 	local wheels = {}
 
 	for _, ent in pairs( self:GetCrosshairFilterEnts() ) do
-		if not IsValid( ent ) or ent:GetClass() ~= "lvs_wheeldrive_wheel" then continue end
+		if not IsValid( ent ) or ent:GetClass() != "lvs_wheeldrive_wheel" then continue end
 
 		table.insert( wheels, ent )
 	end

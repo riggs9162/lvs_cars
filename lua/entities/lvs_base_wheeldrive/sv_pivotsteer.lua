@@ -15,7 +15,7 @@ end
 function ENT:PivotSteer()
 	if not self.PivotSteerEnable then return false end
 
-	return (self._PivotSteer or 0) ~= 0
+	return (self._PivotSteer or 0) != 0
 end
 
 function ENT:CalcPivotSteer( ply )
@@ -28,7 +28,7 @@ function ENT:CalcPivotSteer( ply )
 
 	local Throttle = self:GetThrottle()
 
-	if self._oldShouldSteer ~= ShouldSteer then
+	if self._oldShouldSteer != ShouldSteer then
 		self._oldShouldSteer = ShouldSteer
 
 		if ShouldSteer then

@@ -69,7 +69,7 @@ function ENT:PaintOptics( Pos2D, Col, PodIndex, Type )
 
 	local TargetOffset = self:GetSelectedWeapon() == 1 and 150 or 0
 
-	if OldTargetOffset ~= TargetOffset then
+	if OldTargetOffset != TargetOffset then
 		OldTargetOffset = TargetOffset
 		surface.PlaySound( "lvs/optics.wav" )
 	end

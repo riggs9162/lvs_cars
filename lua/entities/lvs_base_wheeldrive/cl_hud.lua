@@ -26,7 +26,7 @@ function ENT:PaintZoom( X, Y, ply )
 
 	if self.OpticsEnable then
 		if self:GetOpticsEnabled() then
-			if zoom_switch ~= TargetZoom then
+			if zoom_switch != TargetZoom then
 				zoom_switch = TargetZoom
 
 				zoom_blinder = 1
@@ -53,7 +53,7 @@ function ENT:PaintZoom( X, Y, ply )
 	Y = Y * 0.5
 
 	surface.SetDrawColor( Color(255,255,255,255 * zoom) )
-	surface.SetMaterial(zoom_mat ) 
+	surface.SetMaterial( zoom_mat )
 	surface.DrawTexturedRectRotated( X + X * 0.5, Y * 0.5, X, Y, 0 )
 	surface.DrawTexturedRectRotated( X + X * 0.5, Y + Y * 0.5, Y, X, 270 )
 	surface.DrawTexturedRectRotated( X * 0.5, Y * 0.5, Y, X, 90 )
@@ -91,7 +91,7 @@ function ENT:LVSHudPaintInfoText( X, Y, W, H, ScrX, ScrY, ply )
 	draw.DrawText( "km/h ", "LVS_FONT", X + 72, Y + 35, color_white, TEXT_ALIGN_RIGHT )
 	draw.DrawText( kmh, "LVS_FONT_HUD_LARGE", X + 72, Y + 20, color_white, TEXT_ALIGN_LEFT )
 
-	if ply ~= self:GetDriver() then return end
+	if ply != self:GetDriver() then return end
 
 	local Throttle = self:GetThrottle()
 	local Col = Throttle <= 1 and color_white or Color(0,0,0,255)
@@ -115,10 +115,10 @@ function ENT:LVSHudPaintInfoText( X, Y, W, H, ScrX, ScrY, ply )
 		draw.SimpleText( "X" , "LVS_FONT",  hX, hY, Color(0,0,0,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER )
 	else
 		oldThrottleActive = false
-	
+
 		local Reverse = self:GetReverse()
 
-		if oldReverse ~= Reverse then
+		if oldReverse != Reverse then
 			oldReverse = Reverse
 
 			WaveScale = 1
@@ -127,7 +127,7 @@ function ENT:LVSHudPaintInfoText( X, Y, W, H, ScrX, ScrY, ply )
 		local IsManual = self:IsManualTransmission()
 		local Gear = self:GetGear()
 
-		if oldGear ~= Gear then
+		if oldGear != Gear then
 			oldGear = Gear
 
 			WaveScale = 1
@@ -199,7 +199,7 @@ ENT.CarMenuLeft = Material( "lvs/carmenu_turnleft.png" )
 ENT.CarMenuRight = Material( "lvs/carmenu_turnRight.png" )
 
 function ENT:LVSHudPaintCarMenu( X, Y, w, h, ScrX, ScrY, ply )
-	if self:GetDriver() ~= ply then return end
+	if self:GetDriver() != ply then return end
 
 	local MenuOpen = ply:lvsKeyDown( "CAR_MENU" ) and self:HasTurnSignals()
 
@@ -219,7 +219,7 @@ function ENT:LVSHudPaintCarMenu( X, Y, w, h, ScrX, ScrY, ply )
 			EntTable._SelectedMode = 2
 		end
 
-		if EntTable._oldSelectedMode ~= EntTable._SelectedMode then
+		if EntTable._oldSelectedMode != EntTable._SelectedMode then
 			EntTable._oldSelectedMode = EntTable._SelectedMode
 
 			self:EmitSound("buttons/lightswitch2.wav",75,120,0.25)

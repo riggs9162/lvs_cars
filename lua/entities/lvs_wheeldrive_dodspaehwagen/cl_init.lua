@@ -16,7 +16,7 @@ function ENT:OnFrame()
 
 		return
 	end
-	if self._oldGunHeat1 ~= Heat1 then
+	if self._oldGunHeat1 != Heat1 then
 		self._oldGunHeat1 = Heat1
 
 		self.TurretGlow1:SetFloat("$detailblendfactor", Heat1 ^ 7 )
@@ -37,7 +37,7 @@ function ENT:OnFrame()
 
 		return
 	end
-	if self._oldGunHeat2 ~= Heat2 then
+	if self._oldGunHeat2 != Heat2 then
 		self._oldGunHeat2 = Heat2
 
 		self.TurretGlow2:SetFloat("$detailblendfactor", Heat2 ^ 7 )

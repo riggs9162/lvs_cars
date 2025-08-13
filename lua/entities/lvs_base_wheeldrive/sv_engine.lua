@@ -42,7 +42,7 @@ end
 function ENT:StallEngine()
 	self:StopEngine()
 
-	if self:GetNWGear() ~= -1 then
+	if self:GetNWGear() != -1 then
 		self:SetNWGear( 1 )
 	end
 

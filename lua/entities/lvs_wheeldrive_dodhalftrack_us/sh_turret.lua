@@ -26,7 +26,7 @@ function ENT:TurretInRange()
 	if not Muzzle then return true end
 
 	local Dir1 = Muzzle.Ang:Forward()
-	local Dir2 = self:GetAimVector() 
+	local Dir2 = self:GetAimVector()
 
 	return self:AngleBetweenNormal( Dir1, Dir2 ) < 10
 end

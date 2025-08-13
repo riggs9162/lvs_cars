@@ -190,7 +190,7 @@ function ENT:CalcWheelSounds( Base, trace, traceWater )
 		local surface = self.DustEffectSurfaces[ util.GetSurfacePropName( trace.SurfaceProps ) ] and "_dirt" or ""
 		local snd_type = (self:GetSlip() > 500) and "skid" or "roll"
 
-		if (istable( StormFox ) or istable( StormFox2 )) and surface ~= "_dirt" then
+		if (istable( StormFox ) or istable( StormFox2 )) and surface != "_dirt" then
 			local Rain = false
 
 			if StormFox then
@@ -215,7 +215,7 @@ function ENT:CalcWheelSounds( Base, trace, traceWater )
 			end
 		end
 
-		if snd_type == "roll" and not self:GetWheelChainMode() and self:GetHP() ~= self:GetMaxHP() then
+		if snd_type == "roll" and not self:GetWheelChainMode() and self:GetHP() != self:GetMaxHP() then
 			surface = "_damaged"
 		end
 

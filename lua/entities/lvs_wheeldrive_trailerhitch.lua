@@ -41,11 +41,11 @@ if SERVER then
 	function ENT:StartDrag( ply )
 		if IsValid( self.GrabEnt ) or IsValid( ply._HitchGrabEnt ) then return end
 
-		if self:GetHitchType() ~= LVS.HITCHTYPE_FEMALE then return end
+		if self:GetHitchType() != LVS.HITCHTYPE_FEMALE then return end
 
 		local base = self:GetBase()
 
-		if not IsValid( ply ) or not ply:Alive() or ply:InVehicle() or ply:GetObserverMode() ~= OBS_MODE_NONE or not ply:KeyDown( IN_WALK ) or (ply:GetShootPos() - self:GetPos()):Length() > GrabDistance or not IsValid( base ) then return end
+		if not IsValid( ply ) or not ply:Alive() or ply:InVehicle() or ply:GetObserverMode() != OBS_MODE_NONE or not ply:KeyDown( IN_WALK ) or (ply:GetShootPos() - self:GetPos()):Length() > GrabDistance or not IsValid( base ) then return end
 
 		ply:SprintDisable()
 
@@ -138,7 +138,7 @@ if SERVER then
 		self:SetDragTarget( NULL )
 
 		for _, ent in ipairs( ents.FindByClass( "lvs_wheeldrive_trailerhitch" ) ) do
-			if ent:GetHitchType() ~= LVS.HITCHTYPE_MALE then continue end
+			if ent:GetHitchType() != LVS.HITCHTYPE_MALE then continue end
 
 			local dist = (self:GetPos() - ent:GetPos()):Length()
 
@@ -151,7 +151,7 @@ if SERVER then
 	end
 
 	function ENT:Drag( ply )
-		if not IsValid( self.GrabEnt ) or ply:InVehicle() or not ply:KeyDown( IN_WALK ) or not ply:Alive() or ply:GetObserverMode() ~= OBS_MODE_NONE then
+		if not IsValid( self.GrabEnt ) or ply:InVehicle() or not ply:KeyDown( IN_WALK ) or not ply:Alive() or ply:GetObserverMode() != OBS_MODE_NONE then
 			self:StopDrag()
 
 			return
@@ -224,7 +224,7 @@ if SERVER then
 
 		self.IsLinkInProgress = true
 
-		if self:GetHitchType() ~= LVS.HITCHTYPE_FEMALE or target:GetHitchType() ~= LVS.HITCHTYPE_MALE then self.IsLinkInProgress = nil return end
+		if self:GetHitchType() != LVS.HITCHTYPE_FEMALE or target:GetHitchType() != LVS.HITCHTYPE_MALE then self.IsLinkInProgress = nil return end
 
 		self.PosEnt = ents.Create( "prop_physics" )
 
@@ -383,7 +383,7 @@ function ENT:DrawInfoCoupled( ply )
 
 			local KeyUse = ply:KeyDown( IN_WALK )
 
-			if self.OldKeyUse ~= KeyUse then
+			if self.OldKeyUse != KeyUse then
 				self.OldKeyUse = KeyUse
 
 				if KeyUse then
@@ -429,7 +429,7 @@ function ENT:DrawInfo( ply )
 		for id, ent in pairs( HitchEnts ) do
 			if ent == self then continue end
 
-			if not IsValid( ent ) or ent:GetHitchType() ~= LVS.HITCHTYPE_MALE then continue end
+			if not IsValid( ent ) or ent:GetHitchType() != LVS.HITCHTYPE_MALE then continue end
 
 			local tpos = ent:GetPos()
 
@@ -502,7 +502,7 @@ function ENT:DrawInfo( ply )
 
 			local KeyUse = ply:KeyDown( IN_WALK )
 
-			if self.OldKeyUse ~= KeyUse then
+			if self.OldKeyUse != KeyUse then
 				self.OldKeyUse = KeyUse
 
 				if KeyUse then
@@ -526,7 +526,7 @@ end
 function ENT:DrawTranslucent()
 	local ply = LocalPlayer()
 
-	if not IsValid( ply ) or IsValid( ply:lvsGetVehicle() ) or self:GetHitchType() ~= LVS.HITCHTYPE_FEMALE then return end
+	if not IsValid( ply ) or IsValid( ply:lvsGetVehicle() ) or self:GetHitchType() != LVS.HITCHTYPE_FEMALE then return end
 
 	local wep = ply:GetActiveWeapon()
 

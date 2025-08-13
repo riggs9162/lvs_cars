@@ -294,7 +294,7 @@ local function DuplicatorApplyCarWheels( ply, ent, data )
 
 		for id, wheel in pairs( ent:GetWheels() ) do
 			for _, wheeldata in pairs( data ) do
-				if not wheeldata or wheeldata.ID ~= id then continue end
+				if not wheeldata or wheeldata.ID != id then continue end
 
 				if wheeldata.Model then wheel:SetModel( wheeldata.Model ) end
 				if wheeldata.ModelScale then wheel:SetModelScale( wheeldata.ModelScale ) end
@@ -407,7 +407,7 @@ function TOOL:SetData( ent )
 
 	local mdl = self:GetClientInfo("model")
 
-	if mdl ~= "" then
+	if mdl != "" then
 		local data = list.Get( "lvs_wheels" )[ mdl ]
 
 		if data then

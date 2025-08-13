@@ -53,7 +53,7 @@ function ENT:ShouldPutFootDown()
 end
 
 function ENT:CalcMainActivity( ply )
-	if ply ~= self:GetDriver() then return self:CalcMainActivityPassenger( ply ) end
+	if ply != self:GetDriver() then return self:CalcMainActivityPassenger( ply ) end
 
 	if ply.m_bWasNoclipping then 
 		ply.m_bWasNoclipping = nil 

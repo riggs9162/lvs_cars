@@ -17,7 +17,7 @@ function ENT:SetupDataTables()
 end
 
 if SERVER then
-	function ENT:Initialize()	
+	function ENT:Initialize()
 		self:SetMoveType( MOVETYPE_NONE )
 		self:SetSolid( SOLID_NONE )
 		self:DrawShadow( false )
@@ -205,11 +205,11 @@ function ENT:CreateSubMaterial( SubMaterialID, name )
 
 	if not mat then return end
 
-	local string_data = file.Read( "materials/"..mat..".vmt", "GAME" )
+	local stringData = file.Read( "materials/"..mat..".vmt", "GAME" )
 
-	if not string_data then return end
+	if not stringData then return end
 
-	return CreateMaterial( name..SubMaterialID..base:GetClass()..base:EntIndex(), "VertexLitGeneric", util.KeyValuesToTable( string_data ) )
+	return CreateMaterial( name..SubMaterialID..base:GetClass()..base:EntIndex(), "VertexLitGeneric", util.KeyValuesToTable( stringData ) )
 end
 
 function ENT:ResetSubMaterials()
@@ -234,10 +234,10 @@ function ENT:CreateProjectedTexture( id, mat, col, brightness, shadows, nearz, f
 	local thelamp = ProjectedTexture()
 	thelamp:SetTexture( mat )
 	thelamp:SetColor( col )
-	thelamp:SetBrightness( brightness ) 
-	thelamp:SetEnableShadows( shadows ) 
-	thelamp:SetNearZ( nearz ) 
-	thelamp:SetFarZ( farz ) 
+	thelamp:SetBrightness( brightness )
+	thelamp:SetEnableShadows( shadows )
+	thelamp:SetNearZ( nearz )
+	thelamp:SetFarZ( farz )
 	thelamp:SetFOV( fov )
 
 	if istable( self._ProjectedTextures ) then
@@ -321,7 +321,7 @@ function ENT:LightsThink( base )
 
 				if IsValid( proj ) then
 					if proj_active then
-						proj:SetBrightness( projdata.brightness * mul ) 
+						proj:SetBrightness( projdata.brightness * mul )
 
 						if projdata.att then
 							local att = base:GetAttachment( projdata.att )
@@ -389,7 +389,7 @@ function ENT:LightsThink( base )
 
 		typedata.SubMaterial:SetFloat("$detailblendfactor", mul * typedata.SubMaterialBrightness )
 
-		if typedata.SubMaterialValue ~= active then
+		if typedata.SubMaterialValue != active then
 			data[typeid].SubMaterialValue = active
 			base:SetSubMaterial(typedata.SubMaterialID, "!"..typedata.Trigger..typedata.SubMaterialID..Class..EntID)
 		end
@@ -544,7 +544,7 @@ function ENT:GetAmbientLight( base )
 
 	local ViewEnt = ply:GetViewEntity()
 
-	if IsValid( ViewEnt ) and ViewEnt ~= ply then
+	if IsValid( ViewEnt ) and ViewEnt != ply then
 		plyPos = ViewEnt:GetPos()
 	end
 
@@ -617,7 +617,7 @@ function ENT:RenderLights( base, data )
 				if not projdata.PixVis then continue end
 
 				local AmbientLightMul, plyPos = self:GetAmbientLight( base )
-	
+
 				local visible = util.PixelVisible( pos, 1, projdata.PixVis ) * mul
 
 				if not visible or visible == 0 then continue end
