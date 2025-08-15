@@ -49,16 +49,16 @@ if CLIENT then
 		if not bm then return end
 
 		local pos =  bm:GetTranslation()
-		local ang =  bm:GetAngles()	
-		
+		local ang =  bm:GetAngles()
+
 		pos = pos + ang:Up() * 28
 		pos = pos + ang:Right() * 8
 		pos = pos + ang:Forward() * -5
-		
+
 		ang:RotateAroundAxis(ang:Forward(), -210)
 		ang:RotateAroundAxis(ang:Right(),-60)
 		ang:RotateAroundAxis(ang:Up(), 90)
-		
+
 		self.pViewModel:SetPos( pos )
 		self.pViewModel:SetAngles( ang )
 		self.pViewModel:DrawModel()
@@ -72,7 +72,7 @@ if CLIENT then
 
 		local id = client:LookupAttachment("anim_attachment_rh")
 		local attachment = client:GetAttachment( id )
-		
+
 		if not attachment then return end
 
 		local pos = attachment.Pos + attachment.Ang:Forward() * 3 - attachment.Ang:Up() * 30
@@ -145,7 +145,7 @@ function SWEP:PrimaryAttack()
 	if SERVER then
 		self:PlaceStrip()
 
-		client:StripWeapon( "weapon_lvsspikestrip" ) 
+		client:StripWeapon( "weapon_lvsspikestrip" )
 	end
 end
 

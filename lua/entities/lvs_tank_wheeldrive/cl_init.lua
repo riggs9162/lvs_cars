@@ -97,7 +97,7 @@ function ENT:Think()
 	self:CalcTracks()
 
 	BaseClass.Think( self )
- end
+end
 
 ENT.TrackSounds = "lvs/vehicles/sherman/tracks_loop.wav"
 

@@ -90,7 +90,7 @@ function ENT:CalcDismount( data, physobj )
 			if EnablePartDrawing then
 				pac.TogglePartDrawing( client, 1 )
 			end
-	
+
 			client:SetNoDraw( false )
 			client:SetNWBool( "lvs_camera_follow_ragdoll", false)
 			client:lvsSetInputDisabled( false )

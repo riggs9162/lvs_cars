@@ -21,7 +21,7 @@ if SERVER then
 		return ent
 	end
 
-	function ENT:Initialize()	
+	function ENT:Initialize()
 		self:SetModel( "models/misc/88mm_shell.mdl" )
 		self:PhysicsInit( SOLID_VPHYSICS )
 		self:PhysWake()

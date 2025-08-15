@@ -44,7 +44,7 @@ function EFFECT:Init( data )
 
 		particle:SetVelocity( dir * 700 + VectorRand() * 200 )
 		particle:SetDieTime( math.Rand(0.5,1) )
-		particle:SetAirResistance( 250 ) 
+		particle:SetAirResistance( 250 )
 		particle:SetStartAlpha( 50 )
 		particle:SetStartSize( 5 )
 		particle:SetEndSize( 80 )
@@ -81,7 +81,7 @@ function EFFECT:Init( data )
 	local VecCol = (render.GetLightColor( trace.HitPos + trace.HitNormal ) * 0.8 + Vector(0.17,0.15,0.1)) * 255
 	for i = 1, 12 do
 		local particle = self.emitter:Add( self.MatSmoke[math.random(1,#self.MatSmoke)], trace.HitPos )
-		
+
 		if not particle then continue end
 
 		local ang = i * 30
@@ -90,7 +90,7 @@ function EFFECT:Init( data )
 
 		particle:SetVelocity( Vector(X,Y,0) * 1000 )
 		particle:SetDieTime( math.Rand(0.5,1) )
-		particle:SetAirResistance( 500 ) 
+		particle:SetAirResistance( 500 )
 		particle:SetStartAlpha( 100 )
 		particle:SetStartSize( 25 )
 		particle:SetEndSize( 80 )
@@ -162,7 +162,7 @@ function EFFECT:Think()
 		local VecCol = (render.GetLightColor( cur_pos ) * 0.8 + Vector(0.2,0.2,0.2)) * 255
 
 		local particle = self.emitter:Add( self.MatSmoke[math.random(1,#self.MatSmoke)], cur_pos )
-		
+
 		if not particle then continue end
 
 		particle:SetVelocity( -Dir * Vel + VectorRand() * 10 )
@@ -197,6 +197,6 @@ function EFFECT:Render()
 	render.DrawBeam( endpos - dir * len, endpos + dir * len * 0.1, 10, 1, 0, Color( 100, 100, 100, 100 ) )
 	render.DrawBeam( endpos - dir * len * 0.5, endpos + dir * len * 0.1, 5, 1, 0, Color( 255, 255, 255, 255 ) )
 
-	render.SetMaterial( self.MatSprite ) 
+	render.SetMaterial( self.MatSprite )
 	render.DrawSprite( endpos, 400, 400, Color( 100, 100, 100, 255 ) )
 end
