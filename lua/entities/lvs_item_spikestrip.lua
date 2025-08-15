@@ -18,14 +18,14 @@ if SERVER then
 	function ENT:SetAttacker( ent ) self._attacker = ent end
 	function ENT:GetAttacker() return self._attacker or self end
 
-	function ENT:SpawnFunction( ply, tr, ClassName )
+	function ENT:SpawnFunction( client, tr, ClassName )
 		if not tr.Hit then return end
 
 		local ent = ents.Create( ClassName )
 		ent:SetPos( tr.HitPos + tr.HitNormal )
 		ent:Spawn()
 		ent:Activate()
-		ent:SetAttacker( ply )
+		ent:SetAttacker( client )
 
 		return ent
 	end
@@ -60,7 +60,7 @@ if SERVER then
 		return true
 	end
 
-	function ENT:Use( ply )
+	function ENT:Use( client )
 	end
 
 	function ENT:OnRemove()

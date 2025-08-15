@@ -13,14 +13,14 @@ function ENT:DrawWeaponIcon( PodID, ID, x, y, width, height, IsSelected, IconCol
 	surface.SetMaterial( Icon )
 	surface.DrawTexturedRect( x, y, width, height )
 
-	local ply = LocalPlayer()
+	local client = LocalPlayer()
 
-	if not IsValid( ply ) or self:GetSelectedWeapon() != 2 then return end
+	if not IsValid( client ) or self:GetSelectedWeapon() != 2 then return end
 
 	surface.SetMaterial( switch )
 	surface.DrawTexturedRect( x + width + 5, y + 7, 24, 24 )
 
-	local buttonCode = ply:lvsGetControls()[ "CAR_SWAP_AMMO" ]
+	local buttonCode = client:lvsGetControls()[ "CAR_SWAP_AMMO" ]
 
 	if not buttonCode then return end
 

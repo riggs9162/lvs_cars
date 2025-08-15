@@ -24,7 +24,7 @@ if SERVER then
 		return true
 	end
 
-	local function SaveCompressor( ply, ent, data )
+	local function SaveCompressor( client, ent, data )
 		if not duplicator or not duplicator.StoreEntityModifier then return end
 
 		timer.Simple( 0.2, function()
@@ -104,8 +104,8 @@ function ENT:HandleSounds( vehicle, engine )
 	local volume = (0.2 + math.max( math.sin( math.rad( ((engine:GetRPM() - vehicle.EngineIdleRPM) / (vehicle.EngineMaxRPM - vehicle.EngineIdleRPM)) * 90 ) ), 0 ) * 0.8) * throttle * vehicle.SuperChargerVolume
 	local pitch = engine:GetRPM() / vehicle.EngineMaxRPM
 
-	local ply = LocalPlayer()
-	local doppler = vehicle:CalcDoppler( ply )
+	local client = LocalPlayer()
+	local doppler = vehicle:CalcDoppler( client )
 
 	self._smBoost = self._smBoost and self._smBoost + (volume - self._smBoost) * FrameTime() * 5 or 0
 

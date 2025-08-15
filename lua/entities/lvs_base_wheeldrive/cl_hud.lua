@@ -2,7 +2,7 @@
 include("cl_optics.lua")
 include("cl_hud_speedometer.lua")
 
-function ENT:LVSPreHudPaint( X, Y, ply )
+function ENT:LVSPreHudPaint( X, Y, client )
 	return true
 end
 
@@ -19,8 +19,8 @@ function ENT:GetZoom()
 	return TargetZoom
 end
 
-function ENT:PaintZoom( X, Y, ply )
-	TargetZoom = ply:lvsKeyDown( "ZOOM" ) and 1 or 0
+function ENT:PaintZoom( X, Y, client )
+	TargetZoom = client:lvsKeyDown( "ZOOM" ) and 1 or 0
 
 	zoom = zoom + (TargetZoom - zoom) * RealFrameTime() * 10
 
@@ -60,10 +60,10 @@ function ENT:PaintZoom( X, Y, ply )
 	surface.DrawTexturedRectRotated( X * 0.5, Y + Y * 0.5, X, Y, 180 )
 end
 
-function ENT:LVSHudPaint( X, Y, ply )
-	if not self:LVSPreHudPaint( X, Y, ply ) then return end
+function ENT:LVSHudPaint( X, Y, client )
+	if not self:LVSPreHudPaint( X, Y, client ) then return end
 
-	self:PaintZoom( X, Y, ply )
+	self:PaintZoom( X, Y, client )
 end
 
 ENT.IconEngine = Material( "lvs/engine.png" )
@@ -75,7 +75,7 @@ local oldThrottleActive = false
 local oldReverse = false
 local oldGear = -1
 
-function ENT:LVSHudPaintInfoText( X, Y, W, H, ScrX, ScrY, ply )
+function ENT:LVSHudPaintInfoText( X, Y, W, H, ScrX, ScrY, client )
 	self:DrawDeveloperInfo()
 
 	local EntTable = self:GetTable()
@@ -91,7 +91,7 @@ function ENT:LVSHudPaintInfoText( X, Y, W, H, ScrX, ScrY, ply )
 	draw.DrawText( "km/h ", "LVS_FONT", X + 72, Y + 35, color_white, TEXT_ALIGN_RIGHT )
 	draw.DrawText( kmh, "LVS_FONT_HUD_LARGE", X + 72, Y + 20, color_white, TEXT_ALIGN_LEFT )
 
-	if ply != self:GetDriver() then return end
+	if client != self:GetDriver() then return end
 
 	local Throttle = self:GetThrottle()
 	local Col = Throttle <= 1 and color_white or Color(0,0,0,255)
@@ -165,9 +165,9 @@ function ENT:LVSHudPaintInfoText( X, Y, W, H, ScrX, ScrY, ply )
 end
 
 LVS:AddHudEditor( "CarMenu",  ScrW() - 690, ScrH() - 85,  220, 75, 220, 75, "CAR MENU",
-	function( self, vehicle, X, Y, W, H, ScrX, ScrY, ply )
+	function( self, vehicle, X, Y, W, H, ScrX, ScrY, client )
 		if not vehicle.LVSHudPaintCarMenu then return end
-		vehicle:LVSHudPaintCarMenu( X, Y, W, H, ScrX, ScrY, ply )
+		vehicle:LVSHudPaintCarMenu( X, Y, W, H, ScrX, ScrY, client )
 	end
 )
 local function DrawTexturedRect( X, Y, size, selected )
@@ -198,24 +198,24 @@ ENT.CarMenuHazard = Material( "lvs/carmenu_hazard.png" )
 ENT.CarMenuLeft = Material( "lvs/carmenu_turnleft.png" )
 ENT.CarMenuRight = Material( "lvs/carmenu_turnRight.png" )
 
-function ENT:LVSHudPaintCarMenu( X, Y, w, h, ScrX, ScrY, ply )
-	if self:GetDriver() != ply then return end
+function ENT:LVSHudPaintCarMenu( X, Y, w, h, ScrX, ScrY, client )
+	if self:GetDriver() != client then return end
 
-	local MenuOpen = ply:lvsKeyDown( "CAR_MENU" ) and self:HasTurnSignals()
+	local MenuOpen = client:lvsKeyDown( "CAR_MENU" ) and self:HasTurnSignals()
 
 	local EntTable = self:GetTable()
 
 	if MenuOpen then
-		if ply:lvsKeyDown( "CAR_BRAKE" ) then
+		if client:lvsKeyDown( "CAR_BRAKE" ) then
 			EntTable._SelectedMode = 3
 		end
-		if ply:lvsKeyDown( "CAR_THROTTLE" ) then
+		if client:lvsKeyDown( "CAR_THROTTLE" ) then
 			EntTable._SelectedMode = 0
 		end
-		if ply:lvsKeyDown( "CAR_STEER_LEFT" ) then
+		if client:lvsKeyDown( "CAR_STEER_LEFT" ) then
 			EntTable._SelectedMode = 1
 		end
-		if ply:lvsKeyDown( "CAR_STEER_RIGHT" ) then
+		if client:lvsKeyDown( "CAR_STEER_RIGHT" ) then
 			EntTable._SelectedMode = 2
 		end
 

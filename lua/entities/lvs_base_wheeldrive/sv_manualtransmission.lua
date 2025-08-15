@@ -7,7 +7,7 @@ function ENT:DisableManualTransmission()
 	self:SetNWGear( -1 )
 end
 
-function ENT:CalcManualTransmission( ply, EntTable, ShiftUp, ShiftDn )
+function ENT:CalcManualTransmission( client, EntTable, ShiftUp, ShiftDn )
 	if ShiftUp != EntTable._oldShiftUp then
 		EntTable._oldShiftUp = ShiftUp
 

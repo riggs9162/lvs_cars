@@ -28,7 +28,7 @@ function ENT:GetBoost()
 end
 
 if SERVER then
-	function ENT:SpawnFunction( ply, tr, ClassName )
+	function ENT:SpawnFunction( client, tr, ClassName )
 		if not tr.Hit then return end
 
 		local ent = ents.Create( ClassName )
@@ -60,7 +60,7 @@ if SERVER then
 	function ENT:OnVehicleUpdated()
 	end
 
-	local function ResetEngine( ply, ent, data )
+	local function ResetEngine( client, ent, data )
 		if not duplicator or not duplicator.StoreEntityModifier then return end
 
 		if data.Curve then ent.EngineCurve = data.Curve end

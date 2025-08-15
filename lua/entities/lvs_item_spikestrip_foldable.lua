@@ -42,8 +42,8 @@ if SERVER then
 		self._StartFold = true
 	end
 
-	function ENT:Use( ply )
-		if not IsValid( ply ) or not ply:IsPlayer() then return end
+	function ENT:Use( client )
+		if not IsValid( client ) or not client:IsPlayer() then return end
 
 		local PhysObj = self:GetPhysicsObject()
 
@@ -51,11 +51,11 @@ if SERVER then
 
 		if PhysObj:IsMotionEnabled() then return end
 
-		if ply:HasWeapon("weapon_lvsspikestrip") then return end
+		if client:HasWeapon("weapon_lvsspikestrip") then return end
 
-		ply:EmitSound("items/ammo_pickup.wav")
-		ply:Give("weapon_lvsspikestrip")
-		ply:SelectWeapon("weapon_lvsspikestrip")
+		client:EmitSound("items/ammo_pickup.wav")
+		client:Give("weapon_lvsspikestrip")
+		client:SelectWeapon("weapon_lvsspikestrip")
 
 		self:Remove()
 	end

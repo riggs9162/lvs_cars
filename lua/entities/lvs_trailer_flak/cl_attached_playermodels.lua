@@ -7,9 +7,9 @@ function ENT:DrawDriver()
 	if not IsValid( pod ) then self:RemovePlayerModel( "driver" ) return end
 
 	local plyL = LocalPlayer()
-	local ply = pod:GetDriver()
+	local client = pod:GetDriver()
 
-	if not IsValid( ply ) or (ply == plyL and not pod:GetThirdPersonMode()) then self:RemovePlayerModel( "driver" ) return end
+	if not IsValid( client ) or (client == plyL and not pod:GetThirdPersonMode()) then self:RemovePlayerModel( "driver" ) return end
 
 	local ID = self:LookupAttachment( "seat" )
 	local Att = self:GetAttachment( ID )
@@ -18,7 +18,7 @@ function ENT:DrawDriver()
 
 	local Pos,Ang = LocalToWorld( Vector(0,0,0), Angle(180,-20,-90), Att.Pos, Att.Ang )
 
-	local model = self:CreatePlayerModel( ply, "driver" )
+	local model = self:CreatePlayerModel( client, "driver" )
 
 	model:SetSequence( "drive_airboat" )
 	model:SetRenderOrigin( Pos )

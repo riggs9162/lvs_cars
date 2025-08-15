@@ -46,7 +46,7 @@ local function SwapEngine( ent, data )
 	duplicator.StoreEntityModifier( ent, "lvsCarSwapEngine", data )
 end
 
-local function DuplicatorSwapEngine( ply, ent, data )
+local function DuplicatorSwapEngine( client, ent, data )
 	timer.Simple(0.1, function()
 		if not IsValid( ent ) then return end
 

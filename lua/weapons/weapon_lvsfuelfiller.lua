@@ -65,12 +65,12 @@ if CLIENT then
 	end
 
 	function SWEP:DrawWorldModel()
-		local ply = self:GetOwner()
+		local client = self:GetOwner()
 
-		if not IsValid( ply ) then return end
+		if not IsValid( client ) then return end
 
-		local id = ply:LookupAttachment("anim_attachment_rh")
-		local attachment = ply:GetAttachment( id )
+		local id = client:LookupAttachment("anim_attachment_rh")
+		local attachment = client:GetAttachment( id )
 
 		if not attachment then return end
 
@@ -149,17 +149,17 @@ if CLIENT then
 	end
 
 	function SWEP:DrawHUD()
-		local ply = self:GetOwner()
+		local client = self:GetOwner()
 
-		if not IsValid( ply ) then return end
+		if not IsValid( client ) then return end
 
-		local startpos = ply:GetShootPos()
-		local endpos = startpos + ply:GetAimVector() * self.HitDistance
+		local startpos = client:GetShootPos()
+		local endpos = startpos + client:GetAimVector() * self.HitDistance
 
 		local trace = util.TraceLine( {
 			start = startpos ,
 			endpos = endpos,
-			filter = ply,
+			filter = client,
 			mask = MASK_SHOT_HULL
 		} )
 
@@ -167,7 +167,7 @@ if CLIENT then
 			trace = util.TraceHull( {
 				start = startpos ,
 				endpos = endpos,
-				filter = ply,
+				filter = client,
 				mins = Vector( -10, -10, -8 ),
 				maxs = Vector( 10, 10, 8 ),
 				mask = MASK_SHOT_HULL
@@ -230,17 +230,17 @@ function SWEP:PrimaryAttack()
 
 	self:SetNextPrimaryFire( CurTime() + 0.5 )
 
-	local ply = self:GetOwner()
+	local client = self:GetOwner()
 
-	if not IsValid( ply ) then return end
+	if not IsValid( client ) then return end
 
-	local startpos = ply:GetShootPos()
-	local endpos = startpos + ply:GetAimVector() * self.HitDistance
+	local startpos = client:GetShootPos()
+	local endpos = startpos + client:GetAimVector() * self.HitDistance
 
 	local trace = util.TraceLine( {
 		start = startpos ,
 		endpos = endpos,
-		filter = ply,
+		filter = client,
 		mask = MASK_SHOT_HULL
 	} )
 
@@ -248,7 +248,7 @@ function SWEP:PrimaryAttack()
 		trace = util.TraceHull( {
 			start = startpos ,
 			endpos = endpos,
-			filter = ply,
+			filter = client,
 			mins = Vector( -10, -10, -8 ),
 			maxs = Vector( 10, 10, 8 ),
 			mask = MASK_SHOT_HULL

@@ -18,7 +18,7 @@ function ENT:RemovePlayerModel( name )
 	end
 end
 
-function ENT:CreatePlayerModel( ply, name )
+function ENT:CreatePlayerModel( client, name )
 	if not isstring( name ) then return end
 
 	if not istable( self._PlayerModels ) then
@@ -27,11 +27,11 @@ function ENT:CreatePlayerModel( ply, name )
 
 	if IsValid( self._PlayerModels[ name ] ) then return self._PlayerModels[ name ] end
 
-	local model = ClientsideModel( ply:GetModel() )
+	local model = ClientsideModel( client:GetModel() )
 	model:SetNoDraw( true )
 
-	model.GetPlayerColor = function() return ply:GetPlayerColor() end
-	model:SetSkin( ply:GetSkin() )
+	model.GetPlayerColor = function() return client:GetPlayerColor() end
+	model:SetSkin( client:GetSkin() )
 
 	self._PlayerModels[ name ] = model
 

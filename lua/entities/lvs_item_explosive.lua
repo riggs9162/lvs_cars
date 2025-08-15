@@ -18,7 +18,7 @@ if SERVER then
 	function ENT:GetDamage() return (self._dmg or 250) end
 	function ENT:GetRadius() return (self._radius or 250) end
 
-	function ENT:SpawnFunction( ply, tr, ClassName )
+	function ENT:SpawnFunction( client, tr, ClassName )
 		if not tr.Hit then return end
 
 		local ent = ents.Create( ClassName )

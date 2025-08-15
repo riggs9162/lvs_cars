@@ -1,9 +1,9 @@
 include("shared.lua")
 
-function ENT:CalcViewPassenger( ply, pos, angles, fov, pod )
+function ENT:CalcViewPassenger( client, pos, angles, fov, pod )
 
 	if pod != self:GetGunnerSeat() then
-		return LVS:CalcView( self, ply, pos, angles, fov, pod )
+		return LVS:CalcView( self, client, pos, angles, fov, pod )
 	end
 
 	if pod:GetThirdPersonMode() then
@@ -52,7 +52,7 @@ function ENT:CalcViewPassenger( ply, pos, angles, fov, pod )
 	local EyeAttach = self:GetAttachment( self:LookupAttachment( "eye" ) )
 
 	if ZoomAttach and EyeAttach then
-		local ZOOM = ply:lvsKeyDown( "ZOOM" )
+		local ZOOM = client:lvsKeyDown( "ZOOM" )
 
 		local TargetZoom = ZOOM and 1 or 0
 
@@ -64,5 +64,5 @@ function ENT:CalcViewPassenger( ply, pos, angles, fov, pod )
 		pos = ZoomAttach.Pos * Zoom + EyeAttach.Pos * invZoom
 	end
 
-	return LVS:CalcView( self, ply, pos, angles, fov, pod )
+	return LVS:CalcView( self, client, pos, angles, fov, pod )
 end

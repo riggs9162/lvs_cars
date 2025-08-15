@@ -536,15 +536,15 @@ ENT.LightMaterial = Material( "effects/lvs/car_spotlight" )
 function ENT:GetAmbientLight( base )
 	local T = CurTime()
 	local FT = RealFrameTime()
-	local ply = LocalPlayer()
+	local client = LocalPlayer()
 
-	if not IsValid( ply ) then return 0, vector_origin end
+	if not IsValid( client ) then return 0, vector_origin end
 
-	local plyPos = ply:GetShootPos()
+	local plyPos = client:GetShootPos()
 
-	local ViewEnt = ply:GetViewEntity()
+	local ViewEnt = client:GetViewEntity()
 
-	if IsValid( ViewEnt ) and ViewEnt != ply then
+	if IsValid( ViewEnt ) and ViewEnt != client then
 		plyPos = ViewEnt:GetPos()
 	end
 

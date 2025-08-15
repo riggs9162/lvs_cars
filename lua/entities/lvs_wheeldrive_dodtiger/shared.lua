@@ -145,7 +145,7 @@ function ENT:InitWeapons()
 		ent.SNDTurretMG:Stop()
 	end
 	weapon.OnOverheat = function( ent ) ent:EmitSound("lvs/overheat.wav") end
-	weapon.HudPaint = function( ent, X, Y, ply )
+	weapon.HudPaint = function( ent, X, Y, client )
 		local ID = ent:LookupAttachment( "muzzle_coax" )
 
 		local Muzzle = ent:GetAttachment( ID )
@@ -180,11 +180,11 @@ function ENT:InitWeapons()
 	weapon.OnThink = function( ent )
 		if ent:GetSelectedWeapon() != 2 then return end
 
-		local ply = ent:GetDriver()
+		local client = ent:GetDriver()
 
-		if not IsValid( ply ) then return end
+		if not IsValid( client ) then return end
 
-		local SwitchType = ply:lvsKeyDown( "CAR_SWAP_AMMO" )
+		local SwitchType = client:lvsKeyDown( "CAR_SWAP_AMMO" )
 
 		if ent._oldSwitchType != SwitchType then
 			ent._oldSwitchType = SwitchType
@@ -257,7 +257,7 @@ function ENT:InitWeapons()
 
 		ent:EmitSound("lvs/vehicles/tiger/cannon_reload.wav", 75, 100, 1, CHAN_WEAPON )
 	end
-	weapon.HudPaint = function( ent, X, Y, ply )
+	weapon.HudPaint = function( ent, X, Y, client )
 		local ID = ent:LookupAttachment( "muzzle" )
 
 		local Muzzle = ent:GetAttachment( ID )
@@ -506,7 +506,7 @@ function ENT:AddGunnerWeapons()
 		base:SetPoseParameter("machinegun_yaw", -Angles.y )
 		base:SetPoseParameter("machinegun_pitch",  Angles.p )
 	end
-	weapon.HudPaint = function( ent, X, Y, ply )
+	weapon.HudPaint = function( ent, X, Y, client )
 		local base = ent:GetVehicle()
 
 		if not IsValid( base ) then return end

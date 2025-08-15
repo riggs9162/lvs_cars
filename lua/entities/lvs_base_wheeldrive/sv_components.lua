@@ -190,11 +190,11 @@ function ENT:AddDriverViewPort( pos, ang, mins, maxs )
 		Callback = function( tbl, ent, dmginfo )
 			if dmginfo:GetDamage() <= 0 then return end
 
-			local ply = self:GetDriver()
+			local client = self:GetDriver()
 
-			if IsValid( ply ) then
-				ply:EmitSound("lvs/hitdriver"..math.random(1,2)..".wav",120)
-				self:HurtPlayer( ply, dmginfo:GetDamage(), dmginfo:GetAttacker(), dmginfo:GetInflictor() )
+			if IsValid( client ) then
+				client:EmitSound("lvs/hitdriver"..math.random(1,2)..".wav",120)
+				self:HurtPlayer( client, dmginfo:GetDamage(), dmginfo:GetAttacker(), dmginfo:GetInflictor() )
 			end
 
 			dmginfo:ScaleDamage( 0 )

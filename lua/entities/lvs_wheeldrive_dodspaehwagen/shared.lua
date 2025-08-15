@@ -177,7 +177,7 @@ function ENT:InitWeapons()
 		ent.SNDTurretMG:Stop()
 	end
 	weapon.OnOverheat = function( ent ) ent:EmitSound("lvs/overheat.wav") end
-	weapon.HudPaint = function( ent, X, Y, ply )
+	weapon.HudPaint = function( ent, X, Y, client )
 		local ID = ent:LookupAttachment( "muzzle_mg" )
 
 		local Muzzle = ent:GetAttachment( ID )
@@ -246,7 +246,7 @@ function ENT:InitWeapons()
 
 		ent.SNDTurret:PlayOnce( 100 + math.cos( CurTime() + ent:EntIndex() * 1337 ) * 5 + math.Rand(-1,1), 1 )
 	end
-	weapon.HudPaint = function( ent, X, Y, ply )
+	weapon.HudPaint = function( ent, X, Y, client )
 		local ID = ent:LookupAttachment(  "muzzle_turret" )
 
 		local Muzzle = ent:GetAttachment( ID )

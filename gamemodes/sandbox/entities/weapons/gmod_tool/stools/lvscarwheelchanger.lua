@@ -286,7 +286,7 @@ local function DuplicatorSaveCarWheels( ent )
 	duplicator.StoreEntityModifier( base, "lvsCarWheels", data )
 end
 
-local function DuplicatorApplyCarWheels( ply, ent, data )
+local function DuplicatorApplyCarWheels( client, ent, data )
 	if CLIENT then return end
 
 	timer.Simple(0.1, function()
@@ -366,40 +366,40 @@ end
 function TOOL:GetData( ent )
 	if CLIENT then return end
 
-	local ply = self:GetOwner()
+	local client = self:GetOwner()
 
-	if not IsValid( ply ) then return end
+	if not IsValid( client ) then return end
 
 	self.radius = ent:GetRadius() * (1 / ent:GetModelScale())
 	self.ang = ent:GetAlignmentAngle()
 	self.mdl = ent:GetModel()
 
-	ply:ConCommand( [[lvscarwheelchanger_model "]]..self.mdl..[["]] )
-	ply:ConCommand( "lvscarwheelchanger_skin "..ent:GetSkin() )
+	client:ConCommand( [[lvscarwheelchanger_model "]]..self.mdl..[["]] )
+	client:ConCommand( "lvscarwheelchanger_skin "..ent:GetSkin() )
 
 	local clr = ent:GetColor()
-	ply:ConCommand( "lvscarwheelchanger_r " .. clr.r )
-	ply:ConCommand( "lvscarwheelchanger_g " .. clr.g )
-	ply:ConCommand( "lvscarwheelchanger_b " .. clr.b )
-	ply:ConCommand( "lvscarwheelchanger_a " .. clr.a )
+	client:ConCommand( "lvscarwheelchanger_r " .. clr.r )
+	client:ConCommand( "lvscarwheelchanger_g " .. clr.g )
+	client:ConCommand( "lvscarwheelchanger_b " .. clr.b )
+	client:ConCommand( "lvscarwheelchanger_a " .. clr.a )
 
 	for id = 0, 9 do
 		local group = ent:GetBodygroup( id ) or 0
-		ply:ConCommand( "lvscarwheelchanger_bodygroup"..id.." "..group )
+		client:ConCommand( "lvscarwheelchanger_bodygroup"..id.." "..group )
 	end
 
 	for id = 0, 9 do
 		local pp = ent:GetPoseParameter( ent:GetPoseParameterName( id ) )
 
-		ply:ConCommand( "lvscarwheelchanger_pp"..id.." "..pp )
+		client:ConCommand( "lvscarwheelchanger_pp"..id.." "..pp )
 	end
 
-	ply:ConCommand( "lvscarwheelchanger_camber "..ent:GetCamber() )
-	ply:ConCommand( "lvscarwheelchanger_caster "..ent:GetCaster() )
-	ply:ConCommand( "lvscarwheelchanger_toe "..ent:GetToe() )
+	client:ConCommand( "lvscarwheelchanger_camber "..ent:GetCamber() )
+	client:ConCommand( "lvscarwheelchanger_caster "..ent:GetCaster() )
+	client:ConCommand( "lvscarwheelchanger_toe "..ent:GetToe() )
 
-	ply:ConCommand( "lvscarwheelchanger_height "..ent:GetSuspensionHeight() )
-	ply:ConCommand( "lvscarwheelchanger_stiffness "..ent:GetSuspensionStiffness() )
+	client:ConCommand( "lvscarwheelchanger_height "..ent:GetSuspensionHeight() )
+	client:ConCommand( "lvscarwheelchanger_stiffness "..ent:GetSuspensionStiffness() )
 end
 
 function TOOL:SetData( ent )
@@ -528,10 +528,10 @@ function TOOL:Reload( trace )
 
 	local NewTraction = math.min( math.Round( (ent:CheckAlignment() or 0) * 100, 0 ), 120 )
 
-	local ply = self:GetOwner()
+	local client = self:GetOwner()
 
-	if IsValid( ply ) and ply:IsPlayer() then
-		ply:ChatPrint( "Estimated Traction: "..NewTraction.."%" )
+	if IsValid( client ) and client:IsPlayer() then
+		client:ChatPrint( "Estimated Traction: "..NewTraction.."%" )
 	end
 
 	ent:SetSuspensionHeight( self:GetClientInfo("height") )

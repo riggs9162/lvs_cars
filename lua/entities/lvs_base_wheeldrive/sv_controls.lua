@@ -1,11 +1,11 @@
 
-function ENT:CalcMouseSteer( ply )
-	self:ApproachTargetAngle( ply:EyeAngles() )
+function ENT:CalcMouseSteer( client )
+	self:ApproachTargetAngle( client:EyeAngles() )
 end
 
-function ENT:CalcSteer( ply )
-	local KeyLeft = ply:lvsKeyDown( "CAR_STEER_LEFT" )
-	local KeyRight = ply:lvsKeyDown( "CAR_STEER_RIGHT" )
+function ENT:CalcSteer( client )
+	local KeyLeft = client:lvsKeyDown( "CAR_STEER_LEFT" )
+	local KeyRight = client:lvsKeyDown( "CAR_STEER_RIGHT" )
 
 	local MaxSteer = self:GetMaxSteerAngle()
 
@@ -81,16 +81,16 @@ function ENT:LerpBrake( Brake )
 	self:SetBrake( New )
 end
 
-function ENT:CalcThrottle( ply )
-	local KeyThrottle = ply:lvsKeyDown( "CAR_THROTTLE" )
-	local KeyBrakes = ply:lvsKeyDown( "CAR_BRAKE" )
+function ENT:CalcThrottle( client )
+	local KeyThrottle = client:lvsKeyDown( "CAR_THROTTLE" )
+	local KeyBrakes = client:lvsKeyDown( "CAR_BRAKE" )
 
 	if self:GetReverse() and not self:IsManualTransmission() then
-		KeyThrottle = ply:lvsKeyDown( "CAR_BRAKE" )
-		KeyBrakes = ply:lvsKeyDown( "CAR_THROTTLE" )
+		KeyThrottle = client:lvsKeyDown( "CAR_BRAKE" )
+		KeyBrakes = client:lvsKeyDown( "CAR_THROTTLE" )
 	end
 
-	local ThrottleValue = ply:lvsKeyDown( "CAR_THROTTLE_MOD" ) and self:GetMaxThrottle() or 0.5
+	local ThrottleValue = client:lvsKeyDown( "CAR_THROTTLE_MOD" ) and self:GetMaxThrottle() or 0.5
 	local Throttle = KeyThrottle and ThrottleValue or 0
 
 	if not self:IsLegalInput() then
@@ -116,22 +116,22 @@ function ENT:CalcThrottle( ply )
 	self:LerpBrake( KeyBrakes and 1 or 0 )
 end
 
-function ENT:CalcHandbrake( ply )
-	if ply:lvsKeyDown( "CAR_HANDBRAKE" ) then
+function ENT:CalcHandbrake( client )
+	if client:lvsKeyDown( "CAR_HANDBRAKE" ) then
 		self:EnableHandbrake()
 	else
 		self:ReleaseHandbrake()
 	end
 end
 
-function ENT:CalcTransmission( ply, T )
+function ENT:CalcTransmission( client, T )
 	local EntTable = self:GetTable()
 
 	if not EntTable.ForwardAngle or self:IsManualTransmission() then
-		local ShiftUp = ply:lvsKeyDown( "CAR_SHIFT_UP" )
-		local ShiftDn = ply:lvsKeyDown( "CAR_SHIFT_DN" )
+		local ShiftUp = client:lvsKeyDown( "CAR_SHIFT_UP" )
+		local ShiftDn = client:lvsKeyDown( "CAR_SHIFT_DN" )
 
-		self:CalcManualTransmission( ply, EntTable, ShiftUp, ShiftDn )
+		self:CalcManualTransmission( client, EntTable, ShiftUp, ShiftDn )
 
 		local Reverse = self:GetReverse()
 
@@ -146,8 +146,8 @@ function ENT:CalcTransmission( ply, T )
 
 	local ForwardVelocity = self:VectorSplitNormal( self:LocalToWorldAngles( EntTable.ForwardAngle ):Forward(), self:GetVelocity() )
 
-	local KeyForward = ply:lvsKeyDown( "CAR_THROTTLE" )
-	local KeyBackward = ply:lvsKeyDown( "CAR_BRAKE" )
+	local KeyForward = client:lvsKeyDown( "CAR_THROTTLE" )
+	local KeyBackward = client:lvsKeyDown( "CAR_BRAKE" )
 
 	local ReverseVelocity = EntTable.AutoReverseVelocity
 
@@ -193,12 +193,12 @@ function ENT:CalcTransmission( ply, T )
 	end
 end
 
-function ENT:CalcLights( ply, T )
+function ENT:CalcLights( client, T )
 	local LightsHandler = self:GetLightsHandler()
 
 	if not IsValid( LightsHandler ) then return end
 
-	local lights = ply:lvsKeyDown( "CAR_LIGHTS_TOGGLE" )
+	local lights = client:lvsKeyDown( "CAR_LIGHTS_TOGGLE" )
 
 	local EntTable = self:GetTable()
 
@@ -257,40 +257,40 @@ function ENT:CalcLights( ply, T )
 	end
 end
 
-function ENT:StartCommand( ply, cmd )
-	if self:GetDriver() != ply then return end
+function ENT:StartCommand( client, cmd )
+	if self:GetDriver() != client then return end
 
 	local EntTable = self:GetTable()
 
-	self:SetRoadkillAttacker( ply )
+	self:SetRoadkillAttacker( client )
 
-	if ply:lvsKeyDown( "CAR_MENU" ) then
+	if client:lvsKeyDown( "CAR_MENU" ) then
 		self:LerpBrake( 0 )
 		self:LerpThrottle( 0 )
 
 		return
 	end
 
-	if ply:lvsMouseAim() then
-		if ply:lvsKeyDown( "FREELOOK" ) or ply:lvsKeyDown( "CAR_STEER_LEFT" ) or ply:lvsKeyDown( "CAR_STEER_RIGHT" ) then
-			self:CalcSteer( ply )
+	if client:lvsMouseAim() then
+		if client:lvsKeyDown( "FREELOOK" ) or client:lvsKeyDown( "CAR_STEER_LEFT" ) or client:lvsKeyDown( "CAR_STEER_RIGHT" ) then
+			self:CalcSteer( client )
 		else
-			self:CalcMouseSteer( ply )
+			self:CalcMouseSteer( client )
 		end
 	else
-		self:CalcSteer( ply )
+		self:CalcSteer( client )
 	end
 
 	if EntTable.PivotSteerEnable then
-		self:CalcPivotSteer( ply )
+		self:CalcPivotSteer( client )
 
 		if self:PivotSteer() then
 			self:LerpBrake( 0 )
 		else
-			self:CalcThrottle( ply )
+			self:CalcThrottle( client )
 		end
 	else
-		self:CalcThrottle( ply )
+		self:CalcThrottle( client )
 	end
 
 	local T = CurTime()
@@ -299,15 +299,15 @@ function ENT:StartCommand( ply, cmd )
 
 	EntTable._nextCalcCMD = T + FrameTime() - 1e-4
 
-	self:CalcHandbrake( ply )
-	self:CalcTransmission( ply, T )
-	self:CalcLights( ply, T )
-	self:CalcSiren( ply, T )
+	self:CalcHandbrake( client )
+	self:CalcTransmission( client, T )
+	self:CalcLights( client, T )
+	self:CalcSiren( client, T )
 end
 
-function ENT:CalcSiren( ply, T )
+function ENT:CalcSiren( client, T )
 	local mode = self:GetSirenMode()
-	local horn = ply:lvsKeyDown( "ATTACK" )
+	local horn = client:lvsKeyDown( "ATTACK" )
 
 	local EntTable = self:GetTable()
 
@@ -320,7 +320,7 @@ function ENT:CalcSiren( ply, T )
 	end
 
 	if istable( EntTable.SirenSound ) and IsValid( EntTable.SirenSND ) then
-		local siren = ply:lvsKeyDown( "CAR_SIREN" )
+		local siren = client:lvsKeyDown( "CAR_SIREN" )
 
 		if EntTable._siren != siren then
 			EntTable._siren = siren
@@ -438,12 +438,12 @@ function ENT:StopSiren()
 	self.SirenSND:Stop()
 end
 
-function ENT:SetRoadkillAttacker( ply )
+function ENT:SetRoadkillAttacker( client )
 	local T = CurTime()
 
 	if (self._nextSetAttacker or 0) > T then return end
 
 	self._nextSetAttacker = T + 1
 
-	self:SetPhysicsAttacker( ply, 1.1 )
+	self:SetPhysicsAttacker( client, 1.1 )
 end

@@ -18,11 +18,11 @@ function ENT:PivotSteer()
 	return (self._PivotSteer or 0) != 0
 end
 
-function ENT:CalcPivotSteer( ply )
-	local KeyLeft = ply:lvsKeyDown( "CAR_STEER_LEFT" )
-	local KeyRight = ply:lvsKeyDown( "CAR_STEER_RIGHT" )
-	local KeyThrottle = ply:lvsKeyDown( "CAR_THROTTLE" )
-	local KeyBrake = ply:lvsKeyDown( "CAR_BRAKE" )
+function ENT:CalcPivotSteer( client )
+	local KeyLeft = client:lvsKeyDown( "CAR_STEER_LEFT" )
+	local KeyRight = client:lvsKeyDown( "CAR_STEER_RIGHT" )
+	local KeyThrottle = client:lvsKeyDown( "CAR_THROTTLE" )
+	local KeyBrake = client:lvsKeyDown( "CAR_BRAKE" )
 
 	local ShouldSteer = (KeyLeft or KeyRight) and not KeyBrake and not KeyThrottle
 

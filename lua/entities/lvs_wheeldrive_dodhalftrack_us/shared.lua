@@ -210,7 +210,7 @@ function ENT:InitWeapons()
 	weapon.OnOverheat = function( ent )
 		ent:EmitSound("lvs/vehicles/222/cannon_overheat.wav")
 	end
-	weapon.HudPaint = function( ent, X, Y, ply )
+	weapon.HudPaint = function( ent, X, Y, client )
 		local Pos2D = ent:GetEyeTrace().HitPos:ToScreen()
 
 		local Col =  ent:TurretInRange() and Color(255,255,255,255) or Color(255,0,0,255)

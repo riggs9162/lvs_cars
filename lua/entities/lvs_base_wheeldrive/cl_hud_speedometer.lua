@@ -1,9 +1,9 @@
 
 LVS:AddHudEditor( "Tachometer",  ScrW() - 530, ScrH() - 250,  300, 220, 300, 220, "TACH",
-	function( self, vehicle, X, Y, W, H, ScrX, ScrY, ply )
+	function( self, vehicle, X, Y, W, H, ScrX, ScrY, client )
 		if not vehicle.LVSHudPaintTach or not vehicle.GetRacingHud then return end
 
-		vehicle:LVSHudPaintTach( X, Y, W, H, ScrX, ScrY, ply )
+		vehicle:LVSHudPaintTach( X, Y, W, H, ScrX, ScrY, client )
 	end
 )
 
@@ -185,8 +185,8 @@ local TachNeedles = {}
 local CurRPM = 0
 local CurSpeed = 0
 
-function ENT:LVSHudPaintTach( X, Y, w, h, ScrX, ScrY, ply )
-	if ply != self:GetDriver() then return end
+function ENT:LVSHudPaintTach( X, Y, w, h, ScrX, ScrY, client )
+	if client != self:GetDriver() then return end
 
 	if not self:GetRacingHud() then return end
 

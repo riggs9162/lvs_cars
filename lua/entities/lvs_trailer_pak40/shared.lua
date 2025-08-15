@@ -51,22 +51,22 @@ function ENT:OnSetupDataTables()
 	self:AddDT( "Bool", "UseHighExplosive" )
 end
 
-function ENT:CalcMainActivity( ply )
-	if ply != self:GetDriver() then return self:CalcMainActivityPassenger( ply ) end
+function ENT:CalcMainActivity( client )
+	if client != self:GetDriver() then return self:CalcMainActivityPassenger( client ) end
 
-	if ply.m_bWasNoclipping then
-		ply.m_bWasNoclipping = nil
-		ply:AnimResetGestureSlot( GESTURE_SLOT_CUSTOM )
+	if client.m_bWasNoclipping then
+		client.m_bWasNoclipping = nil
+		client:AnimResetGestureSlot( GESTURE_SLOT_CUSTOM )
 
 		if CLIENT then
-			ply:SetIK( true )
+			client:SetIK( true )
 		end
 	end
 
-	ply.CalcIdeal = ACT_CROUCHIDLE
-	ply.CalcSeqOverride = ply:LookupSequence( "cidle_knife" )
+	client.CalcIdeal = ACT_CROUCHIDLE
+	client.CalcSeqOverride = client:LookupSequence( "cidle_knife" )
 
-	return ply.CalcIdeal, ply.CalcSeqOverride
+	return client.CalcIdeal, client.CalcSeqOverride
 end
 
 function ENT:InitWeapons()
@@ -79,11 +79,11 @@ function ENT:InitWeapons()
 	weapon.HeatRateUp = 1
 	weapon.HeatRateDown = 0.3
 	weapon.OnThink = function( ent )
-		local ply = ent:GetDriver()
+		local client = ent:GetDriver()
 
-		if not IsValid( ply ) then return end
+		if not IsValid( client ) then return end
 
-		local SwitchType = ply:lvsKeyDown( "CAR_SWAP_AMMO" )
+		local SwitchType = client:lvsKeyDown( "CAR_SWAP_AMMO" )
 
 		if ent._oldSwitchType != SwitchType then
 			ent._oldSwitchType = SwitchType
@@ -145,7 +145,7 @@ function ENT:InitWeapons()
 
 		ent:DoAttackSequence()
 	end
-	weapon.HudPaint = function( ent, X, Y, ply )
+	weapon.HudPaint = function( ent, X, Y, client )
 		local ID = ent:LookupAttachment(  "muzzle" )
 
 		local Muzzle = ent:GetAttachment( ID )

@@ -7,9 +7,9 @@ function ENT:DrawDriver()
 	if not IsValid( pod ) then self:RemovePlayerModel( "driver" ) return end
 
 	local plyL = LocalPlayer()
-	local ply = pod:GetDriver()
+	local client = pod:GetDriver()
 
-	if not IsValid( ply ) or (ply == plyL and not pod:GetThirdPersonMode()) then self:RemovePlayerModel( "driver" ) return end
+	if not IsValid( client ) or (client == plyL and not pod:GetThirdPersonMode()) then self:RemovePlayerModel( "driver" ) return end
 
 	local ID = self:LookupAttachment( "seat1" )
 	local Att = self:GetAttachment( ID )
@@ -18,7 +18,7 @@ function ENT:DrawDriver()
 
 	local Pos,Ang = LocalToWorld( Vector(10,-5,0), Angle(0,20,-90), Att.Pos, Att.Ang )
 
-	local model = self:CreatePlayerModel( ply, "driver" )
+	local model = self:CreatePlayerModel( client, "driver" )
 
 	model:SetSequence( "sit" )
 	model:SetRenderOrigin( Pos )
@@ -32,9 +32,9 @@ function ENT:DrawGunner()
 	if not IsValid( pod ) then self:RemovePlayerModel( "passenger" ) return end
 
 	local plyL = LocalPlayer()
-	local ply = pod:GetDriver()
+	local client = pod:GetDriver()
 
-	if not IsValid( ply ) or (ply == plyL and not pod:GetThirdPersonMode()) then self:RemovePlayerModel( "passenger" ) return end
+	if not IsValid( client ) or (client == plyL and not pod:GetThirdPersonMode()) then self:RemovePlayerModel( "passenger" ) return end
 
 	local ID = self:LookupAttachment( "seat2" )
 	local Att = self:GetAttachment( ID )
@@ -43,7 +43,7 @@ function ENT:DrawGunner()
 
 	local Pos,Ang = LocalToWorld( Vector(10,-5,0), Angle(0,20,-90), Att.Pos, Att.Ang )
 
-	local model = self:CreatePlayerModel( ply, "passenger" )
+	local model = self:CreatePlayerModel( client, "passenger" )
 
 	model:SetSequence( "sit" )
 	model:SetRenderOrigin( Pos )

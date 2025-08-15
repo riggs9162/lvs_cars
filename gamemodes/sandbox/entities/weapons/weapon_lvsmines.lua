@@ -40,11 +40,11 @@ if CLIENT then
 	SWEP.pViewModel:SetNoDraw( true )
 
 	function SWEP:ViewModelDrawn()
-		local ply = self:GetOwner()
+		local client = self:GetOwner()
 
-		if not IsValid( ply ) then return end
+		if not IsValid( client ) then return end
 
-		local vm = ply:GetViewModel()
+		local vm = client:GetViewModel()
 		local bm = vm:GetBoneMatrix( 1 )
 
 		if not bm then return end
@@ -67,12 +67,12 @@ if CLIENT then
 	end
 
 	function SWEP:DrawWorldModel()
-		local ply = self:GetOwner()
+		local client = self:GetOwner()
 
-		if not IsValid( ply ) then self:DrawModel() return end
+		if not IsValid( client ) then self:DrawModel() return end
 
-		local id = ply:LookupAttachment("anim_attachment_rh")
-		local attachment = ply:GetAttachment( id )
+		local id = client:LookupAttachment("anim_attachment_rh")
+		local attachment = client:GetAttachment( id )
 		
 		if not attachment then return end
 
@@ -104,13 +104,13 @@ function SWEP:Think()
 end
 
 function SWEP:TakePrimaryAmmo( num )
-	local ply = self:GetOwner()
+	local client = self:GetOwner()
 
 	if self:Clip1() <= 0 then
 
 		if self:Ammo1() <= 0 then return end
 
-		ply:RemoveAmmo( num, self:GetPrimaryAmmoType() )
+		client:RemoveAmmo( num, self:GetPrimaryAmmoType() )
 
 		return
 	end
@@ -132,43 +132,43 @@ end
 function SWEP:ThrowMine()
 	if CLIENT then return end
 
-	local ply = self:GetOwner()
+	local client = self:GetOwner()
 
-	if not ply:CheckLimit( "lvsmine" ) then return end
+	if not client:CheckLimit( "lvsmine" ) then return end
 
-	ply:EmitSound( "npc/zombie/claw_miss1.wav" )
+	client:EmitSound( "npc/zombie/claw_miss1.wav" )
 
 	local ent = ents.Create( "lvs_item_mine" )
 
 	if not IsValid( ent ) then return end
 
-	ent:SetPos( ply:GetShootPos() - Vector(0,0,10) )
+	ent:SetPos( client:GetShootPos() - Vector(0,0,10) )
 	ent:Spawn()
 	ent:Activate()
-	ent:SetAttacker( ply )
+	ent:SetAttacker( client )
 
-	ply:AddCount( "lvsmine", ent )
-	ply:AddCleanup( "lvsmine", ent )
+	client:AddCount( "lvsmine", ent )
+	client:AddCleanup( "lvsmine", ent )
 
 	undo.Create("Mine")
 		undo.AddEntity( ent )
-		undo.SetPlayer( ply )
+		undo.SetPlayer( client )
 	undo.Finish()
 
 	local PhysObj = ent:GetPhysicsObject()
 
 	if not IsValid( PhysObj ) then return end
 
-	PhysObj:SetVelocityInstantaneous( ply:GetAimVector() * 200 + Vector(0,0,150) )
+	PhysObj:SetVelocityInstantaneous( client:GetAimVector() * 200 + Vector(0,0,150) )
 	PhysObj:AddAngleVelocity( VectorRand() * 20 ) 
 end
 
 function SWEP:PrimaryAttack()
 	if not self:CanPrimaryAttack() then return end
 
-	local ply = self:GetOwner()
+	local client = self:GetOwner()
 
-	ply:SetAnimation( PLAYER_ATTACK1 )
+	client:SetAnimation( PLAYER_ATTACK1 )
 
 	self:ThrowMine()
 
@@ -178,7 +178,7 @@ function SWEP:PrimaryAttack()
 
 	if SERVER then
 		if self:Ammo1() <= 0 then
-			ply:StripWeapon( "weapon_lvsmines" ) 
+			client:StripWeapon( "weapon_lvsmines" ) 
 		end
 	end
 end

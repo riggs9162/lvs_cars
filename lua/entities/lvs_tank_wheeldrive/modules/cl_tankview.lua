@@ -1,11 +1,11 @@
 if SERVER then return end
 
-function ENT:TankViewOverride( ply, pos, angles, fov, pod )
+function ENT:TankViewOverride( client, pos, angles, fov, pod )
 	return pos, angles, fov
 end
 
-function ENT:CalcTankView( ply, original_pos, original_ang, original_fov, pod )
-	local pos, angles, fov = self:TankViewOverride( ply, original_pos, original_ang, original_fov, pod )
+function ENT:CalcTankView( client, original_pos, original_ang, original_fov, pod )
+	local pos, angles, fov = self:TankViewOverride( client, original_pos, original_ang, original_fov, pod )
 
 	local view = {}
 	view.origin = pos
@@ -53,22 +53,22 @@ function ENT:CalcTankView( ply, original_pos, original_ang, original_fov, pod )
 	return view
 end
 
-function ENT:CalcViewDirectInput( ply, pos, angles, fov, pod )
+function ENT:CalcViewDirectInput( client, pos, angles, fov, pod )
 	if not pod:GetThirdPersonMode() then
-		angles = pod:LocalToWorldAngles( ply:EyeAngles() )
+		angles = pod:LocalToWorldAngles( client:EyeAngles() )
 	end
 
-	return self:CalcTankView( ply, pos, angles, fov, pod )
+	return self:CalcTankView( client, pos, angles, fov, pod )
 end
 
-function ENT:CalcViewMouseAim( ply, pos, angles, fov, pod )
-	return self:CalcTankView( ply, pos, angles, fov, pod )
+function ENT:CalcViewMouseAim( client, pos, angles, fov, pod )
+	return self:CalcTankView( client, pos, angles, fov, pod )
 end
 
-function ENT:CalcViewPassenger( ply, pos, angles, fov, pod )
+function ENT:CalcViewPassenger( client, pos, angles, fov, pod )
 	if not pod:GetThirdPersonMode() then
-		angles = pod:LocalToWorldAngles( ply:EyeAngles() )
+		angles = pod:LocalToWorldAngles( client:EyeAngles() )
 	end
 
-	return self:CalcTankView( ply, pos, angles, fov, pod )
+	return self:CalcTankView( client, pos, angles, fov, pod )
 end

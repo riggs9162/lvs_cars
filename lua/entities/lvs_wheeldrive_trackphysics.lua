@@ -171,14 +171,14 @@ if SERVER then
 		end
 	end
 
-	function ENT:Use( ply )
-		if (ply._lvsNextUse or 0) > CurTime() then return end
+	function ENT:Use( client )
+		if (client._lvsNextUse or 0) > CurTime() then return end
 
 		local base = self:GetBase()
 
 		if not IsValid( base ) then return end
 
-		base:Use( ply )
+		base:Use( client )
 	end
 
 	function ENT:OnRemove()

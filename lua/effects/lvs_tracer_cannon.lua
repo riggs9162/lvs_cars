@@ -84,15 +84,15 @@ function EFFECT:Init( data )
 		particle:SetCollide( false )
 	end
 
-	local ply = LocalPlayer()
+	local client = LocalPlayer()
 
-	if not IsValid( ply ) then return end
+	if not IsValid( client ) then return end
 
-	local ViewEnt = ply:GetViewEntity()
+	local ViewEnt = client:GetViewEntity()
 
 	if not IsValid( ViewEnt ) then return end
 
-	local Intensity = ply:InVehicle() and 5 or 50
+	local Intensity = client:InVehicle() and 5 or 50
 	local Ratio = math.min( 250 / (ViewEnt:GetPos() - trace.HitPos):Length(), 1 )
 
 	if Ratio < 0 then return end

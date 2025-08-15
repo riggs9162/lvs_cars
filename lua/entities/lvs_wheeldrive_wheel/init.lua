@@ -57,7 +57,7 @@ function ENT:Initialize()
 	self:AddEFlags( EFL_DONTBLOCKLOS )
 end
 
-function ENT:GravGunPickupAllowed( ply )
+function ENT:GravGunPickupAllowed( client )
 	return false
 end
 

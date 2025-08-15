@@ -10,7 +10,7 @@ ENT.Spawnable		= true
 ENT.AdminOnly		= false
 
 if SERVER then
-	function ENT:SpawnFunction( ply, tr, ClassName )
+	function ENT:SpawnFunction( client, tr, ClassName )
 		if not tr.Hit then return end
 
 		local ent = ents.Create( ClassName )
@@ -41,19 +41,19 @@ if SERVER then
 
 		ent:SetBackfire( not ent:GetBackfire() )
 
-		local ply = self:GetCreator()
+		local client = self:GetCreator()
 
 		if ent:GetBackfire() then
 			ent:EmitSound("common/wpn_hudoff.wav")
 
-			if IsValid( ply ) then
-				ply:ChatPrint( "Tuning Exhaust Added" )
+			if IsValid( client ) then
+				client:ChatPrint( "Tuning Exhaust Added" )
 			end
 		else
 			ent:EmitSound("common/wpn_denyselect.wav")
 
-			if IsValid( ply ) then
-				ply:ChatPrint( "Tuning Exhaust Removed" )
+			if IsValid( client ) then
+				client:ChatPrint( "Tuning Exhaust Removed" )
 			end
 		end
 

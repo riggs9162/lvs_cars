@@ -166,7 +166,7 @@ function ENT:OnTick()
 	self:Dismount()
 end
 
-function ENT:Use( ply )
+function ENT:Use( client )
 	if not IsValid( self._MountEnt ) then return end
 
 	self:Dismount()

@@ -33,11 +33,11 @@ function ENT:GetOpticsEnabled()
 
 	if not EntTable.OpticsEnable then return false end
 
-	local ply = LocalPlayer()
+	local client = LocalPlayer()
 
-	if not IsValid( ply ) then return false end
+	if not IsValid( client ) then return false end
 
-	local pod = ply:GetVehicle()
+	local pod = client:GetVehicle()
 	local PodIndex = pod:lvsGetPodIndex()
 	if pod == self:GetDriverSeat() then
 		PodIndex = 1

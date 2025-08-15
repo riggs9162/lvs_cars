@@ -56,7 +56,7 @@ end
 function ENT:TracksCreate( PObj )
 end
 
-local function DontDuplicatePaintSheme( ply, ent, data )
+local function DontDuplicatePaintSheme( client, ent, data )
 	ent.RandomColor = nil
 
 	if not duplicator or not duplicator.StoreEntityModifier then return end
@@ -132,23 +132,23 @@ function ENT:PostInitialize( PObj )
 	self:EnableHandbrake()
 end
 
-function ENT:AlignView( ply )
-	if not IsValid( ply ) then return end
+function ENT:AlignView( client )
+	if not IsValid( client ) then return end
 
 	timer.Simple( 0, function()
-		if not IsValid( ply ) or not IsValid( self ) then return end
+		if not IsValid( client ) or not IsValid( self ) then return end
 
 		local Ang = Angle(0,90,0)
 
-		local pod = ply:GetVehicle()
-		local MouseAim = ply:lvsMouseAim() and self:GetDriver() == ply
+		local pod = client:GetVehicle()
+		local MouseAim = client:lvsMouseAim() and self:GetDriver() == client
 
 		if MouseAim and IsValid( pod ) then
 			Ang = pod:LocalToWorldAngles( Angle(0,90,0) )
 			Ang.r = 0
 		end
 
-		ply:SetEyeAngles( Ang )
+		client:SetEyeAngles( Ang )
 	end)
 end
 
@@ -406,10 +406,10 @@ function ENT:SteerTo( TargetValue, MaxSteer )
 	end
 end
 
-function ENT:OnDriverEnterVehicle( ply )
+function ENT:OnDriverEnterVehicle( client )
 end
 
-function ENT:OnDriverExitVehicle( ply )
+function ENT:OnDriverExitVehicle( client )
 end
 
 function ENT:OnDriverChanged( Old, New, VehicleIsActive )

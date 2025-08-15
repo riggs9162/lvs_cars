@@ -184,7 +184,7 @@ function ENT:AddGunnerWeapons()
 		base:SetPoseParameter("f_yaw", -Angles.y )
 		base:SetPoseParameter("f_pitch",  -Angles.p )
 	end
-	weapon.HudPaint = function( ent, X, Y, ply )
+	weapon.HudPaint = function( ent, X, Y, client )
 		local base = ent:GetVehicle()
 
 		if not IsValid( base ) then return end
@@ -302,7 +302,7 @@ function ENT:AddTopGunnerWeapons()
 		base:SetPoseParameter("r_pitch",  -Ang.p )
 		base:SetPoseParameter("r_yaw", -Ang.y )
 	end
-	weapon.HudPaint = function( ent, X, Y, ply )
+	weapon.HudPaint = function( ent, X, Y, client )
 		local base = ent:GetVehicle()
 
 		if not IsValid( base ) then return end
@@ -321,75 +321,75 @@ function ENT:AddTopGunnerWeapons()
 end
 
 
-function ENT:CalcMainActivityPassenger( ply )
+function ENT:CalcMainActivityPassenger( client )
 	local FrontGunnerSeat = self:GetFrontGunnerSeat()
 	local RearGunnerSeat = self:GetRearGunnerSeat()
 
 	if not IsValid( FrontGunnerSeat ) or not IsValid( RearGunnerSeat ) then return end
 
-	if FrontGunnerSeat:GetDriver() != ply and RearGunnerSeat:GetDriver() != ply then return end
+	if FrontGunnerSeat:GetDriver() != client and RearGunnerSeat:GetDriver() != client then return end
 
-	if ply.m_bWasNoclipping then
-		ply.m_bWasNoclipping = nil
-		ply:AnimResetGestureSlot( GESTURE_SLOT_CUSTOM )
+	if client.m_bWasNoclipping then
+		client.m_bWasNoclipping = nil
+		client:AnimResetGestureSlot( GESTURE_SLOT_CUSTOM )
 
 		if CLIENT then
-			ply:SetIK( true )
+			client:SetIK( true )
 		end
 	end
 
-	ply.CalcIdeal = ACT_STAND
-	ply.CalcSeqOverride = ply:LookupSequence( "cwalk_revolver" )
+	client.CalcIdeal = ACT_STAND
+	client.CalcSeqOverride = client:LookupSequence( "cwalk_revolver" )
 
-	return ply.CalcIdeal, ply.CalcSeqOverride
+	return client.CalcIdeal, client.CalcSeqOverride
 end
 
-function ENT:UpdateAnimation( ply, velocity, maxseqgroundspeed )
-	ply:SetPlaybackRate( 1 )
+function ENT:UpdateAnimation( client, velocity, maxseqgroundspeed )
+	client:SetPlaybackRate( 1 )
 
 	if CLIENT then
 		local FrontGunnerSeat = self:GetFrontGunnerSeat()
 		local RearGunnerSeat = self:GetRearGunnerSeat()
 
-		if ply == self:GetDriver() then
-			ply:SetPoseParameter( "vehicle_steer", self:GetSteer() /  self:GetMaxSteerAngle() )
-			ply:InvalidateBoneCache()
+		if client == self:GetDriver() then
+			client:SetPoseParameter( "vehicle_steer", self:GetSteer() /  self:GetMaxSteerAngle() )
+			client:InvalidateBoneCache()
 		end
 
-		if IsValid( FrontGunnerSeat ) and FrontGunnerSeat:GetDriver() == ply then
+		if IsValid( FrontGunnerSeat ) and FrontGunnerSeat:GetDriver() == client then
 			local Pitch = math.Remap( self:GetPoseParameter( "f_pitch" ),0,1,-15,15)
 			local Yaw = math.Remap( self:GetPoseParameter( "f_yaw" ),0,1,-35,35)
 
-			ply:SetPoseParameter( "aim_pitch", Pitch * 1.5 )
-			ply:SetPoseParameter( "aim_yaw", Yaw * 1.5 )
+			client:SetPoseParameter( "aim_pitch", Pitch * 1.5 )
+			client:SetPoseParameter( "aim_yaw", Yaw * 1.5 )
 
-			ply:SetPoseParameter( "head_pitch", -Pitch * 2 )
-			ply:SetPoseParameter( "head_yaw", -Yaw * 3 )
+			client:SetPoseParameter( "head_pitch", -Pitch * 2 )
+			client:SetPoseParameter( "head_yaw", -Yaw * 3 )
 
-			ply:SetPoseParameter( "move_x", 0 )
-			ply:SetPoseParameter( "move_y", 0 )
+			client:SetPoseParameter( "move_x", 0 )
+			client:SetPoseParameter( "move_y", 0 )
 
-			ply:InvalidateBoneCache()
+			client:InvalidateBoneCache()
 		end
 
-		if IsValid( RearGunnerSeat ) and RearGunnerSeat:GetDriver() == ply then
+		if IsValid( RearGunnerSeat ) and RearGunnerSeat:GetDriver() == client then
 			local Pitch = math.Remap( self:GetPoseParameter( "r_pitch" ),0,1,-15,15)
 			local Yaw = math.Remap( self:GetPoseParameter( "r_yaw" ),0,1,-35,35)
 
-			ply:SetPoseParameter( "aim_pitch", Pitch * 3 - 10 )
-			ply:SetPoseParameter( "aim_yaw", Yaw * 1.5 )
+			client:SetPoseParameter( "aim_pitch", Pitch * 3 - 10 )
+			client:SetPoseParameter( "aim_yaw", Yaw * 1.5 )
 
-			ply:SetPoseParameter( "head_pitch", -Pitch * 2 )
-			ply:SetPoseParameter( "head_yaw", -Yaw * 3 )
+			client:SetPoseParameter( "head_pitch", -Pitch * 2 )
+			client:SetPoseParameter( "head_yaw", -Yaw * 3 )
 
-			ply:SetPoseParameter( "move_x", 0 )
-			ply:SetPoseParameter( "move_y", 0 )
+			client:SetPoseParameter( "move_x", 0 )
+			client:SetPoseParameter( "move_y", 0 )
 
-			ply:InvalidateBoneCache()
+			client:InvalidateBoneCache()
 		end
 
-		GAMEMODE:GrabEarAnimation( ply )
-		GAMEMODE:MouthMoveAnimation( ply )
+		GAMEMODE:GrabEarAnimation( client )
+		GAMEMODE:MouthMoveAnimation( client )
 	end
 
 	return false

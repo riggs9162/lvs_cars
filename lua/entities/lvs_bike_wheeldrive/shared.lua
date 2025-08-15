@@ -52,22 +52,22 @@ function ENT:ShouldPutFootDown()
 	return self:GetNWHandBrake() or self:GetVelocity():Length() < 20
 end
 
-function ENT:CalcMainActivity( ply )
-	if ply != self:GetDriver() then return self:CalcMainActivityPassenger( ply ) end
+function ENT:CalcMainActivity( client )
+	if client != self:GetDriver() then return self:CalcMainActivityPassenger( client ) end
 
-	if ply.m_bWasNoclipping then
-		ply.m_bWasNoclipping = nil
-		ply:AnimResetGestureSlot( GESTURE_SLOT_CUSTOM )
+	if client.m_bWasNoclipping then
+		client.m_bWasNoclipping = nil
+		client:AnimResetGestureSlot( GESTURE_SLOT_CUSTOM )
 
 		if CLIENT then
-			ply:SetIK( true )
+			client:SetIK( true )
 		end
 	end
 
-	ply.CalcIdeal = ACT_STAND
-	ply.CalcSeqOverride = ply:LookupSequence( "drive_airboat" )
+	client.CalcIdeal = ACT_STAND
+	client.CalcSeqOverride = client:LookupSequence( "drive_airboat" )
 
-	return ply.CalcIdeal, ply.CalcSeqOverride
+	return client.CalcIdeal, client.CalcSeqOverride
 end
 
 function ENT:GetWheelUp()
@@ -78,6 +78,6 @@ function ENT:GetVehicleType()
 	return "bike"
 end
 
-function ENT:GravGunPickupAllowed( ply )
+function ENT:GravGunPickupAllowed( client )
 	return false
 end

@@ -39,11 +39,11 @@ if CLIENT then
 	SWEP.pViewModel:SetNoDraw( true )
 
 	function SWEP:ViewModelDrawn()
-		local ply = self:GetOwner()
+		local client = self:GetOwner()
 
-		if not IsValid( ply ) then return end
+		if not IsValid( client ) then return end
 
-		local vm = ply:GetViewModel()
+		local vm = client:GetViewModel()
 		local bm = vm:GetBoneMatrix(0)
 
 		if not bm then return end
@@ -66,12 +66,12 @@ if CLIENT then
 	end
 
 	function SWEP:DrawWorldModel()
-		local ply = self:GetOwner()
+		local client = self:GetOwner()
 
-		if not IsValid( ply ) then self:DrawModel() return end
+		if not IsValid( client ) then self:DrawModel() return end
 
-		local id = ply:LookupAttachment("anim_attachment_rh")
-		local attachment = ply:GetAttachment( id )
+		local id = client:LookupAttachment("anim_attachment_rh")
+		local attachment = client:GetAttachment( id )
 		
 		if not attachment then return end
 
@@ -104,48 +104,48 @@ end
 
 if SERVER then
 	function SWEP:PlaceStrip()
-		local ply = self:GetOwner()
+		local client = self:GetOwner()
 
-		ply:EmitSound( "npc/zombie/claw_miss1.wav" )
+		client:EmitSound( "npc/zombie/claw_miss1.wav" )
 
 		local ent = ents.Create( "lvs_item_spikestrip_foldable" )
 
 		if not IsValid( ent ) then return end
 
-		ent:SetAngles( Angle(0,180 + ply:EyeAngles().y,0) )
-		ent:SetPos( ply:GetShootPos() - Vector(0,0,10) )
+		ent:SetAngles( Angle(0,180 + client:EyeAngles().y,0) )
+		ent:SetPos( client:GetShootPos() - Vector(0,0,10) )
 		ent:Spawn()
 		ent:Activate()
-		ent:SetAttacker( ply )
-		ent:SetOwner( ply )
+		ent:SetAttacker( client )
+		ent:SetOwner( client )
 
-		ply:AddCleanup( "lvsspikestrip", ent )
+		client:AddCleanup( "lvsspikestrip", ent )
 
 		undo.Create("Spike Strip")
 			undo.AddEntity( ent )
-			undo.SetPlayer( ply )
+			undo.SetPlayer( client )
 		undo.Finish()
 
 		local PhysObj = ent:GetPhysicsObject()
 
 		if not IsValid( PhysObj ) then return end
 
-		PhysObj:SetVelocityInstantaneous( ply:GetAimVector() * 200 + Vector(0,0,75) )
+		PhysObj:SetVelocityInstantaneous( client:GetAimVector() * 200 + Vector(0,0,75) )
 	end
 end
 
 function SWEP:PrimaryAttack()
-	local ply = self:GetOwner()
+	local client = self:GetOwner()
 
 	self:SendWeaponAnim( ACT_VM_PRIMARYATTACK )
-	ply:SetAnimation( PLAYER_ATTACK1 )
+	client:SetAnimation( PLAYER_ATTACK1 )
 
 	self:SetNextPrimaryFire( CurTime() + 1.5 )
 
 	if SERVER then
 		self:PlaceStrip()
 
-		ply:StripWeapon( "weapon_lvsspikestrip" ) 
+		client:StripWeapon( "weapon_lvsspikestrip" ) 
 	end
 end
 

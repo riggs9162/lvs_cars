@@ -1,6 +1,6 @@
 include("shared.lua")
 
-function ENT:LVSHudPaintInfoText( X, Y, W, H, ScrX, ScrY, ply )
+function ENT:LVSHudPaintInfoText( X, Y, W, H, ScrX, ScrY, client )
 	local kmh = math.Round(self:GetVelocity():Length() * 0.09144,0)
 
 	draw.DrawText( "km/h ", "LVS_FONT", X + 72, Y + 35, color_white, TEXT_ALIGN_RIGHT )

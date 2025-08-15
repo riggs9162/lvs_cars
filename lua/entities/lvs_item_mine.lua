@@ -21,12 +21,12 @@ if SERVER then
 	function ENT:GetForce() return (self._force or 8000) end
 	function ENT:GetRadius() return (self._radius or 150) end
 
-	function ENT:SpawnFunction( ply, tr, ClassName )
+	function ENT:SpawnFunction( client, tr, ClassName )
 
 		if not tr.Hit then return end
 
 		local ent = ents.Create( ClassName )
-		ent.Attacker = ply
+		ent.Attacker = client
 		ent:SetPos( tr.HitPos + tr.HitNormal )
 		ent:Spawn()
 		ent:Activate()
@@ -48,7 +48,7 @@ if SERVER then
 		self.First = true
 	end
 
-	function ENT:Use( ply )
+	function ENT:Use( client )
 	end
 
 	function ENT:Detonate( Pos )
@@ -128,19 +128,19 @@ if SERVER then
 	end
 else
 	function ENT:Draw( flags )
-		local ply = LocalPlayer()
+		local client = LocalPlayer()
 
-		if IsValid( ply ) then
-			if not ply:InVehicle() then
+		if IsValid( client ) then
+			if not client:InVehicle() then
 				self:DrawModel( flags )
 
 				return
 			end
 
-			local ViewEnt = ply:GetViewEntity()
+			local ViewEnt = client:GetViewEntity()
 
 			if IsValid( ViewEnt ) then
-				ply = ViewEnt
+				client = ViewEnt
 			end
 		else
 			return
@@ -148,7 +148,7 @@ else
 
 		local OldPos = self:GetPos()
 
-		local Dist = math.min( (ply:GetPos() - self:GetPos()):LengthSqr() / 50000, 4.5 )
+		local Dist = math.min( (client:GetPos() - self:GetPos()):LengthSqr() / 50000, 4.5 )
 
 		self:SetPos( self:LocalToWorld( Vector(0,0,-Dist) ) )
 		self:DrawModel( flags )

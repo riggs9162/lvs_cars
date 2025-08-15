@@ -5,21 +5,21 @@ ENT.FlyByAdvance = 1
 ENT.FlyBySound = "lvs/vehicles/generic/car_flyby.wav"
 
 function ENT:FlyByThink()
-	local ply = LocalPlayer()
+	local client = LocalPlayer()
 
-	if not IsValid( ply ) then return end
+	if not IsValid( client ) then return end
 
-	local veh = ply:lvsGetVehicle()
+	local veh = client:lvsGetVehicle()
 
 	local EntTable = self:GetTable()
 
 	if veh == self then EntTable.OldApproaching = false return end
 
-	local ViewEnt = ply:GetViewEntity()
+	local ViewEnt = client:GetViewEntity()
 
 	if not IsValid( ViewEnt ) then return end
 
-	if IsValid( veh ) and ViewEnt == ply then
+	if IsValid( veh ) and ViewEnt == client then
 		ViewEnt = veh
 	end
 

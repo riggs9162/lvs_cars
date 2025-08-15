@@ -12,7 +12,7 @@ ENT.lvsEngine = true
 if SERVER then
 	util.AddNetworkString( "lvs_engine_swap" )
 
-	net.Receive("lvs_engine_swap", function( len, ply )
+	net.Receive("lvs_engine_swap", function( len, client )
 		local ent = net.ReadEntity()
 
 		if not IsValid( ent ) or not ent.lvsEngine then return end
@@ -22,7 +22,7 @@ if SERVER then
 		net.Start("lvs_engine_swap")
 			net.WriteEntity( ent )
 			net.WriteTable( ent.EngineSounds )
-		net.Send( ply )
+		net.Send( client )
 	end)
 else
 	net.Receive("lvs_engine_swap", function( len )

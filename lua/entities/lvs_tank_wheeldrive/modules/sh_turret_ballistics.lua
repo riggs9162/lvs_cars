@@ -90,17 +90,17 @@ if SERVER then
 		local pod = weapon:GetDriverSeat()
 
 		if IsValid( pod ) then
-			local ply = weapon:GetDriver()
+			local client = weapon:GetDriver()
 
 			local ForceNoCompensation = false
 
-			if IsValid( ply ) then
-				if self.OpticsZoomOnly and not ply:lvsKeyDown( "ZOOM" ) then
+			if IsValid( client ) then
+				if self.OpticsZoomOnly and not client:lvsKeyDown( "ZOOM" ) then
 					ForceNoCompensation = true
 				end
 
-				if ply != weapon._LastBallisticsSendTo then
-					weapon._LastBallisticsSendTo = ply
+				if client != weapon._LastBallisticsSendTo then
+					weapon._LastBallisticsSendTo = client
 
 					local velocity = EntTable.TurretBallisticsProjectileVelocity
 					local muzzle = EntTable.TurretBallisticsMuzzleAttachment
@@ -166,25 +166,25 @@ else
 	ENT.TurretColorDamaged = Color(255,0,0,255)
 
 	LVS:AddHudEditor( "Turret Info",  ScrW() * 0.5 - 75, ScrH() - 110,  150, 100, 150, 100, "TURRETINFO",
-		function( self, vehicle, X, Y, W, H, ScrX, ScrY, ply )
+		function( self, vehicle, X, Y, W, H, ScrX, ScrY, client )
 			if not vehicle.LVSHudPaintTurretInfo then return end
 
-			vehicle:LVSHudPaintTurretInfo( X + W * 0.5 - H * 0.5, Y, H, H, ScrX, ScrY, ply )
+			vehicle:LVSHudPaintTurretInfo( X + W * 0.5 - H * 0.5, Y, H, H, ScrX, ScrY, client )
 		end
 	)
 
-	function ENT:LVSHudPaintTurretInfo( X, Y, W, H, ScrX, ScrY, ply )
-		local pod = ply:GetVehicle()
+	function ENT:LVSHudPaintTurretInfo( X, Y, W, H, ScrX, ScrY, client )
+		local pod = client:GetVehicle()
 
 		if not IsValid( pod ) or pod:lvsGetPodIndex() != self.TurretPodIndex then return end
 
 		local EntTable = self:GetTable()
 
-		local _, viewangles = ply:lvsGetView()
+		local _, viewangles = client:lvsGetView()
 
 		local turret_yaw = self:GetTurretYaw()
 
-		local yaw_body = - ply:GetVehicle():WorldToLocalAngles( viewangles ).y + 90
+		local yaw_body = - client:GetVehicle():WorldToLocalAngles( viewangles ).y + 90
 		local yaw_turret = turret_yaw + yaw_body
 
 		local IconSize = W * 0.75
@@ -304,16 +304,16 @@ function ENT:TurretUpdateBallistics( newvelocity, newmuzzle, newsight )
 
 	if CLIENT then return end
 
-	local ply = self:GetPassenger( self.TurretPodIndex )
+	local client = self:GetPassenger( self.TurretPodIndex )
 
-	if not IsValid( ply ) then return end
+	if not IsValid( client ) then return end
 
 	net.Start( "lvs_turret_ballistics_synchronous" )
 		net.WriteEntity( self )
 		net.WriteFloat( newvelocity or 0 )
 		net.WriteString( newmuzzle or "" )
 		net.WriteString( newsight or "" )
-	net.Send( ply )
+	net.Send( client )
 end
 
 function ENT:AimTurret()

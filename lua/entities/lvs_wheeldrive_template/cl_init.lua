@@ -32,7 +32,7 @@ end
 function ENT:OnFrame()
 end
 
-function ENT:LVSPreHudPaint( X, Y, ply )
+function ENT:LVSPreHudPaint( X, Y, client )
 	return true -- return false to prevent original hud paint from running
 end
 
@@ -49,19 +49,19 @@ end
 function ENT:OnActiveChanged( Active )
 end
 
-function ENT:CalcViewOverride( ply, pos, angles, fov, pod )
+function ENT:CalcViewOverride( client, pos, angles, fov, pod )
 	return pos, angles, fov
 end
 
-function ENT:CalcViewDirectInput( ply, pos, angles, fov, pod )
-	return LVS:CalcView( self, ply, pos, angles,  fov, pod )
+function ENT:CalcViewDirectInput( client, pos, angles, fov, pod )
+	return LVS:CalcView( self, client, pos, angles,  fov, pod )
 end
 
-function ENT:CalcViewMouseAim( ply, pos, angles, fov, pod )
-	return LVS:CalcView( self, ply, pos, angles,  fov, pod )
+function ENT:CalcViewMouseAim( client, pos, angles, fov, pod )
+	return LVS:CalcView( self, client, pos, angles,  fov, pod )
 end
 
-function ENT:CalcViewPassenger( ply, pos, angles, fov, pod )
-	return LVS:CalcView( self, ply, pos, angles, fov, pod )
+function ENT:CalcViewPassenger( client, pos, angles, fov, pod )
+	return LVS:CalcView( self, client, pos, angles, fov, pod )
 end
 ]]

@@ -22,7 +22,7 @@ function ENT:SetupDataTables()
 end
 
 if SERVER then
-	function ENT:SpawnFunction( ply, tr, ClassName )
+	function ENT:SpawnFunction( client, tr, ClassName )
 		if not tr.Hit then return end
 
 		local ent = ents.Create( ClassName )
@@ -48,17 +48,17 @@ if SERVER then
 		PhysObj:EnableMotion( false )
 	end
 
-	function ENT:giveSWEP( ply )
+	function ENT:giveSWEP( client )
 		self:EmitSound("common/wpn_select.wav")
 
-		ply:SetSuppressPickupNotices( true )
-		ply:Give( "weapon_lvsfuelfiller" )
-		ply:SetSuppressPickupNotices( false )
+		client:SetSuppressPickupNotices( true )
+		client:Give( "weapon_lvsfuelfiller" )
+		client:SetSuppressPickupNotices( false )
 
-		ply:SelectWeapon( "weapon_lvsfuelfiller" )
-		self:SetUser( ply )
+		client:SelectWeapon( "weapon_lvsfuelfiller" )
+		self:SetUser( client )
 
-		local SWEP = ply:GetWeapon( "weapon_lvsfuelfiller" )
+		local SWEP = client:GetWeapon( "weapon_lvsfuelfiller" )
 
 		if not IsValid( SWEP ) then return end
 
@@ -66,41 +66,41 @@ if SERVER then
 		SWEP:SetCallbackTarget( self )
 	end
 
-	function ENT:removeSWEP( ply )
-		if ply:HasWeapon( "weapon_lvsfuelfiller" ) then
-			ply:StripWeapon( "weapon_lvsfuelfiller" )
-			ply:SwitchToDefaultWeapon()
+	function ENT:removeSWEP( client )
+		if client:HasWeapon( "weapon_lvsfuelfiller" ) then
+			client:StripWeapon( "weapon_lvsfuelfiller" )
+			client:SwitchToDefaultWeapon()
 		end
 		self:SetUser( NULL )
 	end
 
-	function ENT:checkSWEP( ply )
-		if not ply:Alive() or ply:InVehicle() then
+	function ENT:checkSWEP( client )
+		if not client:Alive() or client:InVehicle() then
 
-			self:removeSWEP( ply )
+			self:removeSWEP( client )
 
 			return
 		end
 
-		local weapon = ply:GetActiveWeapon()
+		local weapon = client:GetActiveWeapon()
 
 		if not IsValid( weapon ) or weapon:GetClass() != "weapon_lvsfuelfiller" then
-			self:removeSWEP( ply )
+			self:removeSWEP( client )
 
 			return
 		end
 
-		if (ply:GetPos() - self:GetPos()):LengthSqr() < 150000 then return end
+		if (client:GetPos() - self:GetPos()):LengthSqr() < 150000 then return end
 
-		self:removeSWEP( ply )
+		self:removeSWEP( client )
 	end
 
 	function ENT:Think()
-		local ply = self:GetUser()
+		local client = self:GetUser()
 		local T = CurTime()
 
-		if IsValid( ply ) then
-			self:checkSWEP( ply )
+		if IsValid( client ) then
+			self:checkSWEP( client )
 
 			self:NextThink( T )
 		else
@@ -110,19 +110,19 @@ if SERVER then
 		return true
 	end
 
-	function ENT:Use( ply )
-		if not IsValid( ply ) or not ply:IsPlayer() then return end
+	function ENT:Use( client )
+		if not IsValid( client ) or not client:IsPlayer() then return end
 
 		local User = self:GetUser()
 
 		if IsValid( User ) then
-			if User == ply then
-				self:removeSWEP( ply )
+			if User == client then
+				self:removeSWEP( client )
 			end
 		else
-			if ply:HasWeapon("weapon_lvsfuelfiller") then return end
+			if client:HasWeapon("weapon_lvsfuelfiller") then return end
 
-			self:giveSWEP( ply )
+			self:giveSWEP( client )
 		end
 	end
 
@@ -188,12 +188,12 @@ if CLIENT then
 		self:DrawModel()
 		self:DrawCable()
 
-		local ply = LocalPlayer()
+		local client = LocalPlayer()
 		local Pos = self:GetPos()
 
-		if not IsValid( ply ) then return end
+		if not IsValid( client ) then return end
 
-		if (ply:GetPos() - Pos):LengthSqr() > 5000000 then return end
+		if (client:GetPos() - Pos):LengthSqr() > 5000000 then return end
 
 		local data = LVS.FUELTYPES[ self:GetFuelType() ]
 		local Text = data.name
@@ -225,16 +225,16 @@ if CLIENT then
 
 		local pos = self:LocalToWorld( Vector(10,0,45) )
 		local ang = self:LocalToWorldAngles( Angle(0,90,90) )
-		local ply = self:GetUser()
+		local client = self:GetUser()
 
 		local startPos = self:LocalToWorld( Vector(0.06,-17.77,55.48) )
 		local p2 = self:LocalToWorld( Vector(8,-17.77,30) )
 		local p3
 		local endPos
 
-		if IsValid( ply ) then
-			local id = ply:LookupAttachment("anim_attachment_rh")
-			local attachment = ply:GetAttachment( id )
+		if IsValid( client ) then
+			local id = client:LookupAttachment("anim_attachment_rh")
+			local attachment = client:GetAttachment( id )
 
 			if not attachment then return end
 

@@ -41,7 +41,7 @@ if SERVER then
 		return true
 	end
 
-	local function SaveTurbo( ply, ent, data )
+	local function SaveTurbo( client, ent, data )
 		if not duplicator or not duplicator.StoreEntityModifier then return end
 
 		timer.Simple( 0.2, function()
@@ -123,8 +123,8 @@ function ENT:HandleSounds( vehicle, engine )
 	local rpm = engine:GetRPM()
 	local maxRPM = vehicle.EngineMaxRPM
 
-	local ply = LocalPlayer()
-	local doppler = vehicle:CalcDoppler( ply )
+	local client = LocalPlayer()
+	local doppler = vehicle:CalcDoppler( client )
 
 	self.TurboRPM = self.TurboRPM + math.Clamp(math.min(rpm / maxRPM,1) * 600 * (0.75 + 0.25 * throttle) - self.TurboRPM,-100 * FT,500 * FT)
 

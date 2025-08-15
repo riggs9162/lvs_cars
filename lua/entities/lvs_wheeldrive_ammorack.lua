@@ -67,8 +67,8 @@ if SERVER then
 
 			Base:Lock()
 
-			for _, ply in pairs( Base:GetEveryone() ) do
-				Base:HurtPlayer( ply, ply:Health() + ply:Armor(), dmginfo:GetAttacker(), dmginfo:GetInflictor() )
+			for _, client in pairs( Base:GetEveryone() ) do
+				Base:HurtPlayer( client, client:Health() + client:Armor(), dmginfo:GetAttacker(), dmginfo:GetInflictor() )
 			end
 		end
 	end

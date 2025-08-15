@@ -25,14 +25,14 @@ function EFFECT:Init( data )
 
 	self:SetPos( Pos )
 
-	local ply = LocalPlayer()
+	local client = LocalPlayer()
 
-	if not IsValid( ply ) then return end
+	if not IsValid( client ) then return end
 
-	local veh = ply:lvsGetVehicle()
+	local veh = client:lvsGetVehicle()
 
 	if IsValid( veh ) and veh == self.Ent then
-		local pod = ply:GetVehicle()
+		local pod = client:GetVehicle()
 
 		if IsValid( pod ) and not pod:GetThirdPersonMode() then
 			sound.Play( "lvs/vehicles/generic/exhaust_pop_interior"..math.random(1,12)..".ogg", Pos, 75, math.random(98,105), volume )

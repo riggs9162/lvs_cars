@@ -225,15 +225,15 @@ function ENT:GetEngineVolume()
 end
 
 function ENT:HandleEngineSounds( vehicle )
-	local ply = LocalPlayer()
-	local pod = ply:GetVehicle()
+	local client = LocalPlayer()
+	local pod = client:GetVehicle()
 	local Throttle = vehicle:GetThrottle()
 	local MaxThrottle = vehicle:GetMaxThrottle()
-	local Doppler = vehicle:CalcDoppler( ply )
+	local Doppler = vehicle:CalcDoppler( client )
 
 	local EntTable = self:GetTable()
 
-	local DrivingMe = ply:lvsGetVehicle() == vehicle
+	local DrivingMe = client:lvsGetVehicle() == vehicle
 
 	local IsManualTransmission = vehicle:IsManualTransmission()
 

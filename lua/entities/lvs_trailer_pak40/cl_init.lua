@@ -3,8 +3,8 @@ include("sh_turret.lua")
 include("entities/lvs_tank_wheeldrive/modules/cl_tankview.lua")
 include("cl_optics.lua")
 
-function ENT:TankViewOverride( ply, pos, angles, fov, pod )
-	if ply == self:GetDriver() then
+function ENT:TankViewOverride( client, pos, angles, fov, pod )
+	if client == self:GetDriver() then
 		if pod:GetThirdPersonMode() then
 			pos = self:LocalToWorld( Vector(35,0,40) )
 		else

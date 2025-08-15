@@ -36,7 +36,7 @@ function ENT:GetVehicleType()
 	return "LBaseTrailer"
 end
 
-function ENT:StartCommand( ply, cmd )
+function ENT:StartCommand( client, cmd )
 end
 
 function ENT:SetNWHandBrake()

@@ -129,12 +129,12 @@ if SERVER then
 	util.AddNetworkString( "lvs_car_turnsignal" )
 	util.AddNetworkString( "lvs_car_break" )
 
-	net.Receive( "lvs_car_turnsignal", function( len, ply )
-		if not IsValid( ply ) then return end
+	net.Receive( "lvs_car_turnsignal", function( len, client )
+		if not IsValid( client ) then return end
 
-		local veh = ply:lvsGetVehicle()
+		local veh = client:lvsGetVehicle()
 
-		if not IsValid( veh ) or veh:GetDriver() != ply then return end
+		if not IsValid( veh ) or veh:GetDriver() != client then return end
 
 		veh:SetTurnMode( net.ReadInt( 4 ) )
 	end )

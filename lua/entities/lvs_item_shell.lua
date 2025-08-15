@@ -9,7 +9,7 @@ if SERVER then
 		"lvs/vehicles/pak40/shell_impact2.wav"
 	}
 
-	function ENT:SpawnFunction( ply, tr, ClassName )
+	function ENT:SpawnFunction( client, tr, ClassName )
 		if not tr.Hit then return end
 
 		local ent = ents.Create( ClassName )

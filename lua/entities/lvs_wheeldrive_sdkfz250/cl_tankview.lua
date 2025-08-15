@@ -1,7 +1,7 @@
 
 include("entities/lvs_tank_wheeldrive/modules/cl_tankview.lua")
 
-function ENT:TankViewOverride( ply, pos, angles, fov, pod )
+function ENT:TankViewOverride( client, pos, angles, fov, pod )
 	if pod == self:GetFrontGunnerSeat() and not pod:GetThirdPersonMode() then
 		local ID = self:LookupAttachment( "f_eye" )
 

@@ -23,7 +23,7 @@ end
 if SERVER then
 	util.AddNetworkString( "lvs_trailerhitch" )
 
-	net.Receive( "lvs_trailerhitch", function( len, ply )
+	net.Receive( "lvs_trailerhitch", function( len, client )
 		local ent = net.ReadEntity()
 
 		if not IsValid( ent ) or not isfunction( ent.StartDrag ) then return end
@@ -33,25 +33,25 @@ if SERVER then
 		if IsValid( ent:GetTargetBase() ) then
 			ent:Decouple()
 		else
-			ent:StartDrag( ply )
+			ent:StartDrag( client )
 			ent._HandBrakeForceDisabled = true
 		end
 	end )
 
-	function ENT:StartDrag( ply )
-		if IsValid( self.GrabEnt ) or IsValid( ply._HitchGrabEnt ) then return end
+	function ENT:StartDrag( client )
+		if IsValid( self.GrabEnt ) or IsValid( client._HitchGrabEnt ) then return end
 
 		if self:GetHitchType() != LVS.HITCHTYPE_FEMALE then return end
 
 		local base = self:GetBase()
 
-		if not IsValid( ply ) or not ply:Alive() or ply:InVehicle() or ply:GetObserverMode() != OBS_MODE_NONE or not ply:KeyDown( IN_WALK ) or (ply:GetShootPos() - self:GetPos()):Length() > GrabDistance or not IsValid( base ) then return end
+		if not IsValid( client ) or not client:Alive() or client:InVehicle() or client:GetObserverMode() != OBS_MODE_NONE or not client:KeyDown( IN_WALK ) or (client:GetShootPos() - self:GetPos()):Length() > GrabDistance or not IsValid( base ) then return end
 
-		ply:SprintDisable()
+		client:SprintDisable()
 
 		self.GrabEnt = ents.Create( "prop_physics" )
 
-		ply._HitchGrabEnt = self.GrabEnt
+		client._HitchGrabEnt = self.GrabEnt
 
 		if not IsValid( self.GrabEnt ) then return end
 
@@ -65,7 +65,7 @@ if SERVER then
 		self.GrabEnt.DoNotDuplicate = true
 		self:DeleteOnRemove( self.GrabEnt )
 
-		self:SetDragTarget( ply )
+		self:SetDragTarget( client )
 
 		local PhysObj = self.GrabEnt:GetPhysicsObject()
 
@@ -78,7 +78,7 @@ if SERVER then
 
 		self.GrabEnt:SetSolid( SOLID_NONE )
 
-		base:OnStartDrag( self, ply )
+		base:OnStartDrag( self, client )
 		base._HandBrakeForceDisabled = true
 
 		base._DragOriginalCollisionGroup = base:GetCollisionGroup()
@@ -101,20 +101,20 @@ if SERVER then
 			self.GrabEnt:Remove()
 		end
 
-		local ply = self:GetDragTarget()
+		local client = self:GetDragTarget()
 
-		if IsValid( ply ) then
-			ply:SprintEnable()
+		if IsValid( client ) then
+			client:SprintEnable()
 		end
 
 		local base = self:GetBase()
 
 		if IsValid( base ) then
 
-			base:OnStopDrag( self, ply )
+			base:OnStopDrag( self, client )
 			base._HandBrakeForceDisabled = nil
 
-			if IsValid( ply ) then base:SetPhysicsAttacker( ply ) end
+			if IsValid( client ) then base:SetPhysicsAttacker( client ) end
 
 			if base._DragOriginalCollisionGroup then
 				base:SetCollisionGroup( base._DragOriginalCollisionGroup )
@@ -125,7 +125,7 @@ if SERVER then
 				for _, wheel in pairs( base:GetWheels() ) do
 					if not IsValid( wheel ) then continue end
 
-					if IsValid( ply ) then wheel:SetPhysicsAttacker( ply ) end
+					if IsValid( client ) then wheel:SetPhysicsAttacker( client ) end
 
 					if wheel._DragOriginalCollisionGroup then
 						wheel:SetCollisionGroup( wheel._DragOriginalCollisionGroup )
@@ -150,18 +150,18 @@ if SERVER then
 		end
 	end
 
-	function ENT:Drag( ply )
-		if not IsValid( self.GrabEnt ) or ply:InVehicle() or not ply:KeyDown( IN_WALK ) or not ply:Alive() or ply:GetObserverMode() != OBS_MODE_NONE then
+	function ENT:Drag( client )
+		if not IsValid( self.GrabEnt ) or client:InVehicle() or not client:KeyDown( IN_WALK ) or not client:Alive() or client:GetObserverMode() != OBS_MODE_NONE then
 			self:StopDrag()
 
 			return
 		end
 
 		if not self.GrabEnt.TargetAngle then
-			self.GrabEnt.TargetAngle = ply:EyeAngles().y
+			self.GrabEnt.TargetAngle = client:EyeAngles().y
 		end
 
-		local TargetAngle = ply:EyeAngles()
+		local TargetAngle = client:EyeAngles()
 
 		self.GrabEnt.TargetAngle = math.ApproachAngle( self.GrabEnt.TargetAngle, TargetAngle.y, FrameTime() * 500 )
 
@@ -169,7 +169,7 @@ if SERVER then
 
 		TargetAngle.y = self.GrabEnt.TargetAngle
 
-		local TargetPos = ply:GetShootPos() + TargetAngle:Forward() * 80
+		local TargetPos = client:GetShootPos() + TargetAngle:Forward() * 80
 
 		if (self:GetPos() - TargetPos):Length() > GrabDistance then self:StopDrag() return end
 
@@ -293,10 +293,10 @@ if SERVER then
 
 	function ENT:Think()
 
-		local ply = self:GetDragTarget()
+		local client = self:GetDragTarget()
 
-		if IsValid( ply ) then
-			self:Drag( ply )
+		if IsValid( client ) then
+			self:Drag( client )
 
 			self:NextThink( CurTime() )
 		else
@@ -354,19 +354,19 @@ local Col = Color(255,191,0,255)
 local boxMins = Vector(-5,-5,-5)
 local boxMaxs = Vector(5,5,5)
 
-function ENT:DrawInfoCoupled( ply )
+function ENT:DrawInfoCoupled( client )
 	local boxOrigin = self:GetPos()
 	local scr = boxOrigin:ToScreen()
 
 	if not scr.visible then return end
 
-	local shootPos = ply:GetShootPos()
+	local shootPos = client:GetShootPos()
 
 	local boxAngles = self:GetAngles()
 
 	if (boxOrigin - shootPos):Length() > 250 then return end
 
-	local HitPos, _, _ = util.IntersectRayWithOBB( shootPos, ply:GetAimVector() * GrabDistance, boxOrigin, boxAngles, boxMins, boxMaxs )
+	local HitPos, _, _ = util.IntersectRayWithOBB( shootPos, client:GetAimVector() * GrabDistance, boxOrigin, boxAngles, boxMins, boxMaxs )
 
 	local X = scr.x
 	local Y = scr.y
@@ -381,7 +381,7 @@ function ENT:DrawInfoCoupled( ply )
 
 			DrawText( X, Y + 20, "press "..Key.." to decouple!",Color(255,255,255,255) )
 
-			local KeyUse = ply:KeyDown( IN_WALK )
+			local KeyUse = client:KeyDown( IN_WALK )
 
 			if self.OldKeyUse != KeyUse then
 				self.OldKeyUse = KeyUse
@@ -402,19 +402,19 @@ function ENT:DrawInfoCoupled( ply )
 	cam.End2D()
 end
 
-function ENT:DrawInfo( ply )
+function ENT:DrawInfo( client )
 	local boxOrigin = self:GetPos()
 	local scr = boxOrigin:ToScreen()
 
 	if not scr.visible then return end
 
-	local shootPos = ply:GetShootPos()
+	local shootPos = client:GetShootPos()
 
 	local boxAngles = self:GetAngles()
 
 	if (boxOrigin - shootPos):Length() > 250 then return end
 
-	local HitPos, _, _ = util.IntersectRayWithOBB( shootPos, ply:GetAimVector() * GrabDistance, boxOrigin, boxAngles, boxMins, boxMaxs )
+	local HitPos, _, _ = util.IntersectRayWithOBB( shootPos, client:GetAimVector() * GrabDistance, boxOrigin, boxAngles, boxMins, boxMaxs )
 
 	local X = scr.x
 	local Y = scr.y
@@ -500,7 +500,7 @@ function ENT:DrawInfo( ply )
 
 			DrawText( X, Y + 20, "hold "..Key.." to drag!",Color(255,255,255,255) )
 
-			local KeyUse = ply:KeyDown( IN_WALK )
+			local KeyUse = client:KeyDown( IN_WALK )
 
 			if self.OldKeyUse != KeyUse then
 				self.OldKeyUse = KeyUse
@@ -524,19 +524,19 @@ function ENT:DrawInfo( ply )
 end
 
 function ENT:DrawTranslucent()
-	local ply = LocalPlayer()
+	local client = LocalPlayer()
 
-	if not IsValid( ply ) or IsValid( ply:lvsGetVehicle() ) or self:GetHitchType() != LVS.HITCHTYPE_FEMALE then return end
+	if not IsValid( client ) or IsValid( client:lvsGetVehicle() ) or self:GetHitchType() != LVS.HITCHTYPE_FEMALE then return end
 
-	local wep = ply:GetActiveWeapon()
+	local wep = client:GetActiveWeapon()
 
 	if IsValid( wep ) and wep:GetClass() == "gmod_camera" then return end
 
 	if IsValid( self:GetTargetBase() ) then
-		self:DrawInfoCoupled( ply )
+		self:DrawInfoCoupled( client )
 
 		return
 	end
 
-	self:DrawInfo( ply )
+	self:DrawInfo( client )
 end

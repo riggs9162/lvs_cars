@@ -1,8 +1,8 @@
 
 include("entities/lvs_tank_wheeldrive/modules/cl_tankview.lua")
 
-function ENT:TankViewOverride( ply, pos, angles, fov, pod )
-	if ply == self:GetDriver() and not pod:GetThirdPersonMode() then
+function ENT:TankViewOverride( client, pos, angles, fov, pod )
+	if client == self:GetDriver() and not pod:GetThirdPersonMode() then
 		local ID = self:LookupAttachment( "seat1" )
 
 		local Muzzle = self:GetAttachment( ID )
@@ -15,7 +15,7 @@ function ENT:TankViewOverride( ply, pos, angles, fov, pod )
 	return pos, angles, fov
 end
 
-function ENT:CalcViewPassenger( ply, pos, angles, fov, pod )
+function ENT:CalcViewPassenger( client, pos, angles, fov, pod )
 	if pod == self:GetGunnerSeat() and not pod:GetThirdPersonMode() then
 		local ID = self:LookupAttachment( "seat2" )
 
@@ -26,5 +26,5 @@ function ENT:CalcViewPassenger( ply, pos, angles, fov, pod )
 		end
 	end
 
-	return LVS:CalcView( self, ply, pos, angles, fov, pod )
+	return LVS:CalcView( self, client, pos, angles, fov, pod )
 end

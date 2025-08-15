@@ -106,9 +106,9 @@ if CLIENT then
 		if not IsValid( pod ) then return end
 
 		local plyL = LocalPlayer()
-		local ply = pod:GetDriver()
+		local client = pod:GetDriver()
 
-		if ply != plyL then return end
+		if client != plyL then return end
 
 		self:AimTurret()
 	end

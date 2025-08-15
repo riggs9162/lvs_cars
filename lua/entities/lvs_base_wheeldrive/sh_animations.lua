@@ -1,36 +1,36 @@
 
-function ENT:CalcMainActivityPassenger( ply )
+function ENT:CalcMainActivityPassenger( client )
 end
 
-function ENT:CalcMainActivity( ply )
-	if ply != self:GetDriver() then return self:CalcMainActivityPassenger( ply ) end
+function ENT:CalcMainActivity( client )
+	if client != self:GetDriver() then return self:CalcMainActivityPassenger( client ) end
 
-	if ply.m_bWasNoclipping then
-		ply.m_bWasNoclipping = nil
-		ply:AnimResetGestureSlot( GESTURE_SLOT_CUSTOM )
+	if client.m_bWasNoclipping then
+		client.m_bWasNoclipping = nil
+		client:AnimResetGestureSlot( GESTURE_SLOT_CUSTOM )
 
 		if CLIENT then
-			ply:SetIK( true )
+			client:SetIK( true )
 		end
 	end
 
-	ply.CalcIdeal = ACT_STAND
-	ply.CalcSeqOverride = ply:LookupSequence( "drive_jeep" )
+	client.CalcIdeal = ACT_STAND
+	client.CalcSeqOverride = client:LookupSequence( "drive_jeep" )
 
-	return ply.CalcIdeal, ply.CalcSeqOverride
+	return client.CalcIdeal, client.CalcSeqOverride
 end
 
-function ENT:UpdateAnimation( ply, velocity, maxseqgroundspeed )
-	ply:SetPlaybackRate( 1 )
+function ENT:UpdateAnimation( client, velocity, maxseqgroundspeed )
+	client:SetPlaybackRate( 1 )
 
 	if CLIENT then
-		if ply == self:GetDriver() then
-			ply:SetPoseParameter( "vehicle_steer", self:GetSteer() /  self:GetMaxSteerAngle() )
-			ply:InvalidateBoneCache()
+		if client == self:GetDriver() then
+			client:SetPoseParameter( "vehicle_steer", self:GetSteer() /  self:GetMaxSteerAngle() )
+			client:InvalidateBoneCache()
 		end
 
-		GAMEMODE:GrabEarAnimation( ply )
-		GAMEMODE:MouthMoveAnimation( ply )
+		GAMEMODE:GrabEarAnimation( client )
+		GAMEMODE:MouthMoveAnimation( client )
 	end
 
 	return false
