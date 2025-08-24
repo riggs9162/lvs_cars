@@ -306,7 +306,27 @@ function ENT:IsTurretEnabled()
 end
 
 function ENT:AimTurret()
-	if not self:IsTurretEnabled() then if SERVER then self:StopTurretSound() self:StopTurretSoundDMG() end return end
+	if not self:IsTurretEnabled() then
+		-- If turret is disabled, smoothly return to default offsets instead of instantly snapping.
+		if SERVER then
+			self:StopTurretSound()
+			self:StopTurretSoundDMG()
+		end
+
+		local EntTable = self:GetTable()
+		local AimRate = EntTable.TurretAimRate * FrameTime()
+
+		local Pitch = math.ApproachAngle( self:GetTurretPitch(), EntTable.TurretPitchOffset, AimRate )
+		local Yaw = math.ApproachAngle( self:GetTurretYaw(), EntTable.TurretYawOffset, AimRate )
+
+		self:SetTurretPitch( Pitch )
+		self:SetTurretYaw( Yaw )
+
+		self:SetPoseParameter(EntTable.TurretPitchPoseParameterName, EntTable.TurretPitchOffset + self:GetTurretPitch() * EntTable.TurretPitchMul )
+		self:SetPoseParameter(EntTable.TurretYawPoseParameterName, EntTable.TurretYawOffset + self:GetTurretYaw() * EntTable.TurretYawMul )
+
+		return
+	end
 
 	local EntTable = self:GetTable()
 
